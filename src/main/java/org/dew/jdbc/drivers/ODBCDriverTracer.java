@@ -18,104 +18,104 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 
 public class ODBCDriverTracer implements Driver {
-	private static int iCount = 0;
-	private static final String sPREFIX = "jdbc:dew:";
-	private static String sDefFileName = System.getProperty("user.home") + File.separator + "odbc_trace.sql";
+  private static int iCount = 0;
+  private static final String sPREFIX = "jdbc:dew:";
+  private static String sDefFileName = System.getProperty("user.home") + File.separator + "odbc_trace.sql";
 
-	private static Driver m_defaultDriver;
+  private static Driver m_defaultDriver;
 
-	static {
-		try {
-			m_defaultDriver = (Driver) Class.forName("sun.jdbc.odbc.JdbcOdbcDriver").newInstance();;
-			DriverManager.registerDriver(new ODBCDriverTracer());
-		}
-		catch (Exception ex) {
-			System.err.println("[ODBCDriverTracer] init: " + ex);
-		}
-	}
+  static {
+    try {
+      m_defaultDriver = (Driver) Class.forName("sun.jdbc.odbc.JdbcOdbcDriver").newInstance();;
+      DriverManager.registerDriver(new ODBCDriverTracer());
+    }
+    catch (Exception ex) {
+      System.err.println("[ODBCDriverTracer] init: " + ex);
+    }
+  }
 
-	public Connection connect(String sURL, Properties oInfo) throws java.sql.SQLException {
-		Tracer tracer = getDefaultTracer();
-		tracer.traceRem("[ODBCDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
-		Connection conn = null;
-		String sTag = null;
-		try {
-			String sRealURL = getRealURL(sURL);
-			conn = m_defaultDriver.connect(sRealURL, oInfo);
-			iCount++;
-			sTag = getTag(sRealURL);
-			String sTextRem = "[Connection " + sTag;
-			sTextRem += " opened at " + getCurrentDate();
-			sTextRem += " URL = " + sRealURL;
-			sTextRem += ", Info = " + oInfo;
-			sTextRem += ", AutoCommit = " + conn.getAutoCommit();
-			sTextRem += "]";
-			tracer.traceRem(sTextRem);
-		} catch (SQLException ex) {
-			tracer.traceException(ex);
-			throw ex;
-		}
+  public Connection connect(String sURL, Properties oInfo) throws java.sql.SQLException {
+    Tracer tracer = getDefaultTracer();
+    tracer.traceRem("[ODBCDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
+    Connection conn = null;
+    String sTag = null;
+    try {
+      String sRealURL = getRealURL(sURL);
+      conn = m_defaultDriver.connect(sRealURL, oInfo);
+      iCount++;
+      sTag = getTag(sRealURL);
+      String sTextRem = "[Connection " + sTag;
+      sTextRem += " opened at " + getCurrentDate();
+      sTextRem += " URL = " + sRealURL;
+      sTextRem += ", Info = " + oInfo;
+      sTextRem += ", AutoCommit = " + conn.getAutoCommit();
+      sTextRem += "]";
+      tracer.traceRem(sTextRem);
+    } catch (SQLException ex) {
+      tracer.traceException(ex);
+      throw ex;
+    }
 
-		return new TConnection(conn, sTag, tracer, "odbc");
-	}
+    return new TConnection(conn, sTag, tracer, "odbc");
+  }
 
-	public boolean acceptsURL(String sURL) throws java.sql.SQLException {
-		if (sURL == null)
-			return false;
-		return sURL.startsWith(sPREFIX);
-	}
+  public boolean acceptsURL(String sURL) throws java.sql.SQLException {
+    if (sURL == null)
+      return false;
+    return sURL.startsWith(sPREFIX);
+  }
 
-	public DriverPropertyInfo[] getPropertyInfo(String sURL, Properties oInfo) throws java.sql.SQLException {
-		return m_defaultDriver.getPropertyInfo(getRealURL(sURL), oInfo);
-	}
+  public DriverPropertyInfo[] getPropertyInfo(String sURL, Properties oInfo) throws java.sql.SQLException {
+    return m_defaultDriver.getPropertyInfo(getRealURL(sURL), oInfo);
+  }
 
-	public int getMajorVersion() {
-		return m_defaultDriver.getMajorVersion();
-	}
+  public int getMajorVersion() {
+    return m_defaultDriver.getMajorVersion();
+  }
 
-	public int getMinorVersion() {
-		return m_defaultDriver.getMinorVersion();
-	}
+  public int getMinorVersion() {
+    return m_defaultDriver.getMinorVersion();
+  }
 
-	public boolean jdbcCompliant() {
-		return true;
-	}
+  public boolean jdbcCompliant() {
+    return true;
+  }
 
-	private static String getRealURL(String sURL) {
-		return "jdbc:odbc:" + sURL.substring(sPREFIX.length());
-	}
+  private static String getRealURL(String sURL) {
+    return "jdbc:odbc:" + sURL.substring(sPREFIX.length());
+  }
 
-	private String getTag(String sUrl) {
-		return "C" + iCount;
-	}
+  private String getTag(String sUrl) {
+    return "C" + iCount;
+  }
 
-	private Tracer getDefaultTracer() {
-		Tracer tracer = null;
-		try {
-			tracer = new FileTracer(sDefFileName, "-- ");
-		} catch (Exception ex) {
-			tracer = new NullTracer();
-		}
-		return tracer;
-	}
+  private Tracer getDefaultTracer() {
+    Tracer tracer = null;
+    try {
+      tracer = new FileTracer(sDefFileName, "-- ");
+    } catch (Exception ex) {
+      tracer = new NullTracer();
+    }
+    return tracer;
+  }
 
-	private static String getCurrentDate() {
-		Calendar cal = new GregorianCalendar();
-		int iYear = cal.get(java.util.Calendar.YEAR);
-		int iMonth = cal.get(java.util.Calendar.MONTH) + 1;
-		int iDay = cal.get(java.util.Calendar.DAY_OF_MONTH);
-		int iHour = cal.get(Calendar.HOUR_OF_DAY);
-		int iMinute = cal.get(Calendar.MINUTE);
-		int iSecond = cal.get(Calendar.SECOND);
-		String sMonth = iMonth < 10 ? "0" + iMonth : String.valueOf(iMonth);
-		String sDay = iDay < 10 ? "0" + iDay : String.valueOf(iDay);
-		String sHour = iHour < 10 ? "0" + iHour : String.valueOf(iHour);
-		String sMinute = iMinute < 10 ? "0" + iMinute : String.valueOf(iMinute);
-		String sSecond = iSecond < 10 ? "0" + iSecond : String.valueOf(iSecond);
-		return iYear + "-" + sMonth + "-" + sDay + " " + sHour + ":" + sMinute + ":" + sSecond;
-	}
+  private static String getCurrentDate() {
+    Calendar cal = new GregorianCalendar();
+    int iYear = cal.get(java.util.Calendar.YEAR);
+    int iMonth = cal.get(java.util.Calendar.MONTH) + 1;
+    int iDay = cal.get(java.util.Calendar.DAY_OF_MONTH);
+    int iHour = cal.get(Calendar.HOUR_OF_DAY);
+    int iMinute = cal.get(Calendar.MINUTE);
+    int iSecond = cal.get(Calendar.SECOND);
+    String sMonth = iMonth < 10 ? "0" + iMonth : String.valueOf(iMonth);
+    String sDay = iDay < 10 ? "0" + iDay : String.valueOf(iDay);
+    String sHour = iHour < 10 ? "0" + iHour : String.valueOf(iHour);
+    String sMinute = iMinute < 10 ? "0" + iMinute : String.valueOf(iMinute);
+    String sSecond = iSecond < 10 ? "0" + iSecond : String.valueOf(iSecond);
+    return iYear + "-" + sMonth + "-" + sDay + " " + sHour + ":" + sMinute + ":" + sSecond;
+  }
 
-	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-		return m_defaultDriver.getParentLogger();
-	}
+  public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    return m_defaultDriver.getParentLogger();
+  }
 }
