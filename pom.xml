@@ -10,6 +10,10 @@
   <name>jdbc-tracer</name>
   <url>https://github.com/giosil/jdbc-tracer</url>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
