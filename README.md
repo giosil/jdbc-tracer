@@ -38,6 +38,17 @@ org.dew.jdbc.drivers PostgreSQLDriverTracer
 jdbc:dew://host/database
 ```
 
+### HSQLDB
+```
+org.hsqldb.jdbcDriver
+jdbc:hsqldb:res:test
+
+        becomes
+
+org.dew.jdbc.drivers.HSQLDBDriverTracer
+jdbc:dew:res:test
+```
+
 ## Build
 
 - `git clone https://github.com/giosil/jdbc-tracer.git`

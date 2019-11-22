@@ -17,25 +17,25 @@ import java.sql.DriverPropertyInfo;
 import java.sql.Driver;
 import java.sql.DriverManager;
 
-public class PostgreSQLDriverTracer implements Driver {
+public class HSQLDBDriverTracer implements Driver {
   private static int iCount = 0;
   private static final String sPREFIX = "jdbc:dew:";
-  private static String sDefFileName = System.getProperty("user.home") + File.separator + "postgresql_trace.sql";
+  private static String sDefFileName = System.getProperty("user.home") + File.separator + "hsqldb_trace.sql";
 
   private static Driver m_defaultDriver;
 
   static {
     try {
-      m_defaultDriver = (Driver) Class.forName("org.postgresql.Driver").newInstance();
-      DriverManager.registerDriver(new PostgreSQLDriverTracer());
+      m_defaultDriver = (Driver) Class.forName("org.hsqldb.jdbcDriver").newInstance();
+      DriverManager.registerDriver(new HSQLDBDriverTracer());
     } catch (Exception ex) {
-      System.err.println("[PostgreSQLDriverTracer] init: " + ex);
+      System.err.println("[HSQLDBDriverTracer] init: " + ex);
     }
   }
 
   public Connection connect(String sURL, Properties oInfo) throws java.sql.SQLException {
     Tracer tracer = getDefaultTracer();
-    tracer.traceRem("[PostgreSQLDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
+    tracer.traceRem("[HSQLDBDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
     Connection conn = null;
     String sTag = null;
     try {
@@ -55,7 +55,7 @@ public class PostgreSQLDriverTracer implements Driver {
       throw ex;
     }
 
-    return new TConnection(conn, sTag, tracer, "postgresql");
+    return new TConnection(conn, sTag, tracer, "hsqldb");
   }
 
   public boolean acceptsURL(String sURL) throws java.sql.SQLException {
@@ -81,7 +81,7 @@ public class PostgreSQLDriverTracer implements Driver {
   }
 
   private static String getRealURL(String sURL) {
-    return "jdbc:postgresql:" + sURL.substring(sPREFIX.length());
+    return "jdbc:hsqldb:" + sURL.substring(sPREFIX.length());
   }
 
   private String getTag(String sUrl) {
