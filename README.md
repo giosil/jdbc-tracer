@@ -49,6 +49,28 @@ org.dew.jdbc.drivers.HSQLDBDriverTracer
 jdbc:dew:res:test
 ```
 
+### H2
+```
+org.h2.Driver
+jdbc:h2:mem:test
+
+        becomes
+
+org.dew.jdbc.drivers.H2DriverTracer
+jdbc:dew:mem:test
+```
+
+### SQLServer
+```
+com.microsoft.sqlserver.jdbc.SQLServerDriver
+jdbc:sqlserver://host;database=test
+
+        becomes
+
+org.dew.jdbc.drivers.SQLServerTracer
+jdbc:dew://host;database=test
+```
+
 ## Build
 
 - `git clone https://github.com/giosil/jdbc-tracer.git`
