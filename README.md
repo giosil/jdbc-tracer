@@ -27,6 +27,17 @@ org.dew.jdbc.drivers MySQLDriverTracer
 jdbc:dew://localhost/database
 ```
 
+### MariaDB
+```
+org.mariadb.jdbc.Driver
+jdbc:mariadb://localhost/database
+
+        becomes
+
+org.dew.jdbc.drivers MariaDBTracer
+jdbc:dew://localhost/database
+```
+
 ### PostgreSQL
 ```
 org.postgresql.Driver
