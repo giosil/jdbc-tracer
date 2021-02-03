@@ -175,34 +175,29 @@ class JavaCodeRefine
               }
             }
           }
-          else
-          if(c == '/') {
+          else if(c == '/') {
             if(p == '/') { // "//" -> boSingleLineComment = true
               if(!boStringLiteral && !boSingleLineComment && !boMultiLineComment) {
                 boSingleLineComment = true;
               }
             }
-            else
-            if(p == '*') {  // "*/" -> boMultiLineComment=false
+            else if(p == '*') {  // "*/" -> boMultiLineComment=false
               if(!boStringLiteral && !boSingleLineComment) {
                 boMultiLineComment = false;
               }
             }
           }
-          else
-          if(c == '*') {
+          else if(c == '*') {
             if(p == '/') { // "/*" -> boMultiLineComment = true
               if(!boStringLiteral && !boSingleLineComment && !boMultiLineComment) {
                 boMultiLineComment = true;
               }
             }
-            else
-            if(p == ' ' || p == '\t') { // " *" -> boJavaDocIndent=true
+            else if(p == ' ' || p == '\t') { // " *" -> boJavaDocIndent=true
               boJavaDocIndent = true;
             }
           }
-          else
-          if(c == '{') {
+          else if(c == '{') {
             if(!boStringLiteral && !boSingleLineComment && !boMultiLineComment) {
               iCurrIndent++;
               if(p == ')') sbCode.append(' '); // if(x > 0){ -> if(x > 0) {
@@ -210,15 +205,13 @@ class JavaCodeRefine
               if(p == '=') sbCode.append(' '); // int[] x ={}; -> int[] x = {};
             }
           }
-          else
-          if(c == '}') {
+          else if(c == '}') {
             if(!boStringLiteral && !boSingleLineComment && !boMultiLineComment) {
               iCurrIndent--;
               iPrevIndent = iCurrIndent;
             }
           }
-          else
-          if(c == ' ') {
+          else if(c == ' ') {
             if(!boStringLiteral && !boSingleLineComment && !boMultiLineComment) {
               if(n == '(' && p != '=' && p != '>' && p != '<' && p != 'n') {
                 o = p;
@@ -232,8 +225,7 @@ class JavaCodeRefine
               }
             }
           }
-          else
-          if(c == '(') {
+          else if(c == '(') {
             if(!boStringLiteral && !boSingleLineComment && !boMultiLineComment) {
               if(p == '=') sbCode.append(' '); // =( -> = (
               if(p == '>') sbCode.append(' '); // >( -> > (
@@ -243,35 +235,34 @@ class JavaCodeRefine
               }
             }
           }
-          else
-          if(c > 127) {
+          else if(c > 127) {
             if(boSingleLineComment || boMultiLineComment) {
-              if(c == '\340') sbCode.append("a'"); else
-              if(c == '\350') sbCode.append("e'"); else
-              if(c == '\354') sbCode.append("i'"); else
-              if(c == '\362') sbCode.append("o'"); else
-              if(c == '\371') sbCode.append("u'"); else
-              if(c == '\341') sbCode.append("a'"); else
-              if(c == '\351') sbCode.append("e'"); else
-              if(c == '\355') sbCode.append("i'"); else
-              if(c == '\363') sbCode.append("o'"); else
-              if(c == '\372') sbCode.append("u'"); else
-              if(c == '\300') sbCode.append("A'"); else
-              if(c == '\310') sbCode.append("E'"); else
-              if(c == '\314') sbCode.append("I'"); else
-              if(c == '\322') sbCode.append("O'"); else
-              if(c == '\331') sbCode.append("U'"); else
-              if(c == '\301') sbCode.append("A'"); else
-              if(c == '\311') sbCode.append("E'"); else
-              if(c == '\315') sbCode.append("I'"); else
-              if(c == '\323') sbCode.append("O'"); else
-              if(c == '\332') sbCode.append("U'"); else sbCode.append(c);
+              if(c == '\340') sbCode.append("a'"); 
+              else if(c == '\350') sbCode.append("e'");
+              else if(c == '\354') sbCode.append("i'");
+              else if(c == '\362') sbCode.append("o'");
+              else if(c == '\371') sbCode.append("u'");
+              else if(c == '\341') sbCode.append("a'");
+              else if(c == '\351') sbCode.append("e'");
+              else if(c == '\355') sbCode.append("i'");
+              else if(c == '\363') sbCode.append("o'");
+              else if(c == '\372') sbCode.append("u'");
+              else if(c == '\300') sbCode.append("A'");
+              else if(c == '\310') sbCode.append("E'");
+              else if(c == '\314') sbCode.append("I'");
+              else if(c == '\322') sbCode.append("O'");
+              else if(c == '\331') sbCode.append("U'");
+              else if(c == '\301') sbCode.append("A'");
+              else if(c == '\311') sbCode.append("E'");
+              else if(c == '\315') sbCode.append("I'");
+              else if(c == '\323') sbCode.append("O'");
+              else if(c == '\332') sbCode.append("U'");
+              else sbCode.append(c);
               o = p;
               p = c;
               continue;
             }
-            else
-            if(boStringLiteral) {
+            else if(boStringLiteral) {
               String sOctal = Integer.toString((int) c, 8);
               sbCode.append("\\" + sOctal);
               o = p;
