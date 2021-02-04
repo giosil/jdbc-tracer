@@ -1,10 +1,9 @@
 package org.dew.test;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -21,31 +20,37 @@ public class TestJDBCTracer extends TestCase {
   }
   
   public void testApp() throws Exception {
+    
+    executeQuery();
+    
+  }
+  
+  public void executeQuery() throws Exception {
     Connection conn = null;
-    PreparedStatement pstm = null;
-    ResultSet rs = null;
+    Statement  stm  = null;
+    ResultSet  rs   = null;
     try {
       conn = getConnection();
-      pstm = conn.prepareStatement("SELECT ID,NAME,PHONE,EMAIL,BIRTHDATE FROM CONTACTS WHERE ID=?");
-      pstm.setInt(1, 1);
-      rs = pstm.executeQuery();
-      if(rs.next()) {
-        int iId         = rs.getInt("ID");
-        String sName    = rs.getString("NAME");
-        String sPhone   = rs.getString("PHONE");
-        Date dBirthDate = rs.getDate("BIRTHDATE");
-        System.out.println("ID=" + iId + ", NAME=" + sName + ", PHONE=" + sPhone + ", BIRTHDATE=" + dBirthDate);
+      stm  = conn.createStatement();
+      rs   = stm.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES");
+      while(rs.next()) {
+        String s1 = rs.getString(1);
+        String s2 = rs.getString(2);
+        String s3 = rs.getString(3);
+        System.out.println(s1 + ";" + s2 + ";" + s3);
       }
+      
+      stm.execute("SHUTDOWN COMPACT");
     }
     finally {
       if(rs   != null) try { rs.close();   } catch(Exception ignore) {}
-      if(pstm != null) try { pstm.close(); } catch(Exception ignore) {}
+      if(stm  != null) try { stm.close();  } catch(Exception ignore) {}
       if(conn != null) try { conn.close(); } catch(Exception ignore) {}
     }
   }
   
   public static Connection getConnection() throws Exception {
     Class.forName("org.dew.jdbc.drivers.HSQLDBDriverTracer");
-    return DriverManager.getConnection("jdbc:dew:res:test", "SA", "");
+    return DriverManager.getConnection("jdbc:dew:mem:test", "SA", "");
   }
 }

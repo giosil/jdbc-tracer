@@ -5,8 +5,6 @@ import org.dew.jdbc.impl.*;
 
 import java.io.File;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -17,9 +15,11 @@ import java.sql.DriverPropertyInfo;
 import java.sql.Driver;
 import java.sql.DriverManager;
 
-public class MariaDBTracer implements Driver {
+public 
+class MariaDBTracer implements Driver 
+{
   private static int iCount = 0;
-  private static final String sPREFIX = "jdbc:dew:";
+  private static final String sPREFIX = "jdbc:wmariadb:";
   private static String sDefFileName = System.getProperty("user.home") + File.separator + "mariadb_trace.sql";
   private static Driver m_defaultDriver;
 
@@ -44,13 +44,14 @@ public class MariaDBTracer implements Driver {
       iCount++;
       sTag = getTag(sRealURL);
       String sTextRem = "[Connection " + sTag;
-      sTextRem += " opened at " + getCurrentDate();
+      sTextRem += " opened at " + new java.sql.Timestamp(System.currentTimeMillis());
       sTextRem += " URL = " + sRealURL;
       sTextRem += ", Info = " + oInfo;
       sTextRem += ", AutoCommit = " + conn.getAutoCommit();
       sTextRem += "]";
       tracer.traceRem(sTextRem);
-    } catch (SQLException ex) {
+    } 
+    catch (SQLException ex) {
       tracer.traceException(ex);
       throw ex;
     }
@@ -58,8 +59,7 @@ public class MariaDBTracer implements Driver {
   }
 
   public boolean acceptsURL(String sURL) throws java.sql.SQLException {
-    if (sURL == null)
-      return false;
+    if (sURL == null) return false;
     return sURL.startsWith(sPREFIX);
   }
 
@@ -91,26 +91,11 @@ public class MariaDBTracer implements Driver {
     Tracer tracer = null;
     try {
       tracer = new FileTracer(sDefFileName, "-- ");
-    } catch (Exception ex) {
+    } 
+    catch (Exception ex) {
       tracer = new NullTracer();
     }
     return tracer;
-  }
-
-  private static String getCurrentDate() {
-    Calendar cal = new GregorianCalendar();
-    int iYear = cal.get(java.util.Calendar.YEAR);
-    int iMonth = cal.get(java.util.Calendar.MONTH) + 1;
-    int iDay = cal.get(java.util.Calendar.DAY_OF_MONTH);
-    int iHour = cal.get(Calendar.HOUR_OF_DAY);
-    int iMinute = cal.get(Calendar.MINUTE);
-    int iSecond = cal.get(Calendar.SECOND);
-    String sMonth = iMonth < 10 ? "0" + iMonth : String.valueOf(iMonth);
-    String sDay = iDay < 10 ? "0" + iDay : String.valueOf(iDay);
-    String sHour = iHour < 10 ? "0" + iHour : String.valueOf(iHour);
-    String sMinute = iMinute < 10 ? "0" + iMinute : String.valueOf(iMinute);
-    String sSecond = iSecond < 10 ? "0" + iSecond : String.valueOf(iSecond);
-    return iYear + "-" + sMonth + "-" + sDay + " " + sHour + ":" + sMinute + ":" + sSecond;
   }
 
   public Logger getParentLogger() throws SQLFeatureNotSupportedException {

@@ -1,27 +1,15 @@
 package org.dew.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.io.InputStream;
 import java.io.Reader;
-import java.sql.ParameterMetaData;
-import java.sql.Ref;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Array;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
+
+import java.math.BigDecimal;
+
+import java.net.URL;
+
+import java.sql.*;
+
 import java.util.Calendar;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 public class TPreparedStatement implements PreparedStatement {
 
@@ -41,34 +29,34 @@ public class TPreparedStatement implements PreparedStatement {
     mapParameters = new TMap(sDBMS);
   }
 
-  public void addBatch() throws java.sql.SQLException {
+  public void addBatch() throws SQLException {
     tracer.traceRem("[" + sTag + ".addBatch]");
     pstm.addBatch();
   }
 
-  public void addBatch(String sSQL) throws java.sql.SQLException {
+  public void addBatch(String sSQL) throws SQLException {
     tracer.traceRem("[" + sTag + ".addBatch(" + sSQL + ")]");
     pstm.addBatch(sSQL);
   }
 
-  public void cancel() throws java.sql.SQLException {
+  public void cancel() throws SQLException {
     pstm.cancel();
   }
 
-  public void clearBatch() throws java.sql.SQLException {
+  public void clearBatch() throws SQLException {
     pstm.clearBatch();
   }
 
-  public void clearParameters() throws java.sql.SQLException {
+  public void clearParameters() throws SQLException {
     mapParameters.clear();
     pstm.clearParameters();
   }
 
-  public void clearWarnings() throws java.sql.SQLException {
+  public void clearWarnings() throws SQLException {
     pstm.clearWarnings();
   }
 
-  public void close() throws java.sql.SQLException {
+  public void close() throws SQLException {
     tracer.traceRem("[" + sTag + ".close()]");
     try {
       pstm.close();
@@ -78,7 +66,7 @@ public class TPreparedStatement implements PreparedStatement {
     }
   }
 
-  public boolean execute() throws java.sql.SQLException {
+  public boolean execute() throws SQLException {
     boolean bResult = false;
     tracer.traceRem("[" + sTag + ".execute {SQL = " + sPreparedSQL + "}]");
     tracer.traceRem("[parameters: " + mapParameters + "]");
@@ -97,7 +85,7 @@ public class TPreparedStatement implements PreparedStatement {
     return bResult;
   }
 
-  public boolean execute(String sSQL) throws java.sql.SQLException {
+  public boolean execute(String sSQL) throws SQLException {
     boolean bResult = false;
     tracer.traceRem("[" + sTag + ".execute]");
     tracer.trace(sSQL.trim() + ";");
@@ -165,7 +153,7 @@ public class TPreparedStatement implements PreparedStatement {
     return bResult;
   }
 
-  public int[] executeBatch() throws java.sql.SQLException {
+  public int[] executeBatch() throws SQLException {
     int[] aiResult = null;
     tracer.traceRem("[" + sTag + ".executeBatch]");
     try {
@@ -177,7 +165,7 @@ public class TPreparedStatement implements PreparedStatement {
     return aiResult;
   }
 
-  public ResultSet executeQuery() throws java.sql.SQLException {
+  public ResultSet executeQuery() throws SQLException {
     ResultSet rs = null;
     tracer.traceRem("[" + sTag + ".executeQuery {SQL = " + sPreparedSQL + "}]");
     tracer.traceRem("[parameters: " + mapParameters + "]");
@@ -196,7 +184,7 @@ public class TPreparedStatement implements PreparedStatement {
     return rs;
   }
 
-  public ResultSet executeQuery(String sSQL) throws java.sql.SQLException {
+  public ResultSet executeQuery(String sSQL) throws SQLException {
     ResultSet rs = null;
     tracer.traceRem("[" + sTag + ".executeQuery]");
     tracer.trace(sSQL.trim() + ";");
@@ -213,7 +201,7 @@ public class TPreparedStatement implements PreparedStatement {
     return rs;
   }
 
-  public int executeUpdate() throws java.sql.SQLException {
+  public int executeUpdate() throws SQLException {
     int iUpdateCount = 0;
     tracer.traceRem("[" + sTag + ".executeUpdate {SQL = " + sPreparedSQL + "}]");
     tracer.traceRem("[parameters: " + mapParameters + "]");
@@ -232,7 +220,7 @@ public class TPreparedStatement implements PreparedStatement {
     return iUpdateCount;
   }
 
-  public int executeUpdate(String sSQL) throws java.sql.SQLException {
+  public int executeUpdate(String sSQL) throws SQLException {
     int iUpdateCount = 0;
     tracer.traceRem("[" + sTag + ".executeUpdate]");
     tracer.trace(sSQL.trim() + ";");
@@ -300,16 +288,16 @@ public class TPreparedStatement implements PreparedStatement {
     return iUpdateCount;
   }
 
-  public Connection getConnection() throws java.sql.SQLException {
+  public Connection getConnection() throws SQLException {
     Connection conn = pstm.getConnection();
     return new TConnection(conn, getConnectionTag(), tracer, sDBMS);
   }
 
-  public int getFetchDirection() throws java.sql.SQLException {
+  public int getFetchDirection() throws SQLException {
     return pstm.getFetchDirection();
   }
 
-  public int getFetchSize() throws java.sql.SQLException {
+  public int getFetchSize() throws SQLException {
     return pstm.getFetchSize();
   }
 
@@ -317,19 +305,19 @@ public class TPreparedStatement implements PreparedStatement {
     return pstm.getGeneratedKeys();
   }
 
-  public int getMaxFieldSize() throws java.sql.SQLException {
+  public int getMaxFieldSize() throws SQLException {
     return pstm.getMaxFieldSize();
   }
 
-  public int getMaxRows() throws java.sql.SQLException {
+  public int getMaxRows() throws SQLException {
     return pstm.getMaxRows();
   }
 
-  public ResultSetMetaData getMetaData() throws java.sql.SQLException {
+  public ResultSetMetaData getMetaData() throws SQLException {
     return pstm.getMetaData();
   }
 
-  public boolean getMoreResults() throws java.sql.SQLException {
+  public boolean getMoreResults() throws SQLException {
     return pstm.getMoreResults();
   }
 
@@ -341,15 +329,15 @@ public class TPreparedStatement implements PreparedStatement {
     return pstm.getParameterMetaData();
   }
 
-  public int getQueryTimeout() throws java.sql.SQLException {
+  public int getQueryTimeout() throws SQLException {
     return pstm.getQueryTimeout();
   }
 
-  public ResultSet getResultSet() throws java.sql.SQLException {
+  public ResultSet getResultSet() throws SQLException {
     return pstm.getResultSet();
   }
 
-  public int getResultSetConcurrency() throws java.sql.SQLException {
+  public int getResultSetConcurrency() throws SQLException {
     return pstm.getResultSetConcurrency();
   }
 
@@ -357,181 +345,181 @@ public class TPreparedStatement implements PreparedStatement {
     return pstm.getResultSetHoldability();
   }
 
-  public int getResultSetType() throws java.sql.SQLException {
+  public int getResultSetType() throws SQLException {
     return pstm.getResultSetType();
   }
 
-  public int getUpdateCount() throws java.sql.SQLException {
+  public int getUpdateCount() throws SQLException {
     return pstm.getUpdateCount();
   }
 
-  public SQLWarning getWarnings() throws java.sql.SQLException {
+  public SQLWarning getWarnings() throws SQLException {
     return pstm.getWarnings();
   }
 
-  public void setArray(int iIndex, Array par) throws java.sql.SQLException {
+  public void setArray(int iIndex, Array par) throws SQLException {
     pstm.setArray(iIndex, par);
   }
 
-  public void setAsciiStream(int iIndex, InputStream par, int iLenght) throws java.sql.SQLException {
+  public void setAsciiStream(int iIndex, InputStream par, int iLenght) throws SQLException {
     pstm.setAsciiStream(iIndex, par, iLenght);
   }
 
-  public void setBigDecimal(int iIndex, BigDecimal par) throws java.sql.SQLException {
+  public void setBigDecimal(int iIndex, BigDecimal par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setBigDecimal(iIndex, par);
   }
 
-  public void setBinaryStream(int iIndex, InputStream par, int iLenght) throws java.sql.SQLException {
+  public void setBinaryStream(int iIndex, InputStream par, int iLenght) throws SQLException {
     pstm.setBinaryStream(iIndex, par, iLenght);
   }
 
-  public void setBlob(int iIndex, Blob par) throws java.sql.SQLException {
+  public void setBlob(int iIndex, Blob par) throws SQLException {
     mapParameters.put(new Integer(iIndex), "<Blob>");
     pstm.setBlob(iIndex, par);
   }
 
-  public void setBoolean(int iIndex, boolean par) throws java.sql.SQLException {
+  public void setBoolean(int iIndex, boolean par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par ? 1 : 0);
     pstm.setBoolean(iIndex, par);
   }
 
-  public void setByte(int iIndex, byte par) throws java.sql.SQLException {
+  public void setByte(int iIndex, byte par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setByte(iIndex, par);
   }
 
-  public void setBytes(int iIndex, byte[] par) throws java.sql.SQLException {
+  public void setBytes(int iIndex, byte[] par) throws SQLException {
     mapParameters.put(new Integer(iIndex), "<byte[]>");
     pstm.setBytes(iIndex, par);
   }
 
-  public void setCharacterStream(int iIndex, Reader par, int iLenght) throws java.sql.SQLException {
+  public void setCharacterStream(int iIndex, Reader par, int iLenght) throws SQLException {
     pstm.setCharacterStream(iIndex, par, iLenght);
   }
 
-  public void setClob(int iIndex, Clob par) throws java.sql.SQLException {
+  public void setClob(int iIndex, Clob par) throws SQLException {
     mapParameters.put(new Integer(iIndex), "<Clob>");
     pstm.setClob(iIndex, par);
   }
 
-  public void setCursorName(String sCursorName) throws java.sql.SQLException {
+  public void setCursorName(String sCursorName) throws SQLException {
     pstm.setCursorName(sCursorName);
   }
 
-  public void setDate(int iIndex, Date par) throws java.sql.SQLException {
+  public void setDate(int iIndex, Date par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setDate(iIndex, par);
   }
 
-  public void setDate(int iIndex, Date par, Calendar cal) throws java.sql.SQLException {
+  public void setDate(int iIndex, Date par, Calendar cal) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setDate(iIndex, par, cal);
   }
 
-  public void setDouble(int iIndex, double par) throws java.sql.SQLException {
+  public void setDouble(int iIndex, double par) throws SQLException {
     mapParameters.put(new Integer(iIndex), new Double(par));
     pstm.setDouble(iIndex, par);
   }
 
-  public void setEscapeProcessing(boolean bPar) throws java.sql.SQLException {
+  public void setEscapeProcessing(boolean bPar) throws SQLException {
     pstm.setEscapeProcessing(bPar);
   }
 
-  public void setFetchDirection(int iFetchDirection) throws java.sql.SQLException {
+  public void setFetchDirection(int iFetchDirection) throws SQLException {
     pstm.setFetchDirection(iFetchDirection);
   }
 
-  public void setFetchSize(int iFetchSize) throws java.sql.SQLException {
+  public void setFetchSize(int iFetchSize) throws SQLException {
     pstm.setFetchSize(iFetchSize);
   }
 
-  public void setFloat(int iIndex, float par) throws java.sql.SQLException {
+  public void setFloat(int iIndex, float par) throws SQLException {
     mapParameters.put(new Integer(iIndex), new Float(par));
     pstm.setFloat(iIndex, par);
   }
 
-  public void setInt(int iIndex, int par) throws java.sql.SQLException {
+  public void setInt(int iIndex, int par) throws SQLException {
     mapParameters.put(new Integer(iIndex), new Integer(par));
     pstm.setInt(iIndex, par);
   }
 
-  public void setLong(int iIndex, long par) throws java.sql.SQLException {
+  public void setLong(int iIndex, long par) throws SQLException {
     mapParameters.put(new Integer(iIndex), new Long(par));
     pstm.setLong(iIndex, par);
   }
 
-  public void setMaxFieldSize(int iMax) throws java.sql.SQLException {
+  public void setMaxFieldSize(int iMax) throws SQLException {
     pstm.setMaxFieldSize(iMax);
   }
 
-  public void setMaxRows(int iMaxRows) throws java.sql.SQLException {
+  public void setMaxRows(int iMaxRows) throws SQLException {
     pstm.setMaxRows(iMaxRows);
   }
 
-  public void setNull(int iIndex, int par) throws java.sql.SQLException {
+  public void setNull(int iIndex, int par) throws SQLException {
     pstm.setNull(iIndex, par);
   }
 
-  public void setNull(int iIndex, int par, String sTypeName) throws java.sql.SQLException {
+  public void setNull(int iIndex, int par, String sTypeName) throws SQLException {
     mapParameters.put(new Integer(iIndex), null);
     pstm.setNull(iIndex, par, sTypeName);
   }
 
-  public void setObject(int iIndex, Object par) throws java.sql.SQLException {
+  public void setObject(int iIndex, Object par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setObject(iIndex, par);
   }
 
-  public void setObject(int iIndex, Object par, int iTargetSQLType) throws java.sql.SQLException {
+  public void setObject(int iIndex, Object par, int iTargetSQLType) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setObject(iIndex, par, iTargetSQLType);
   }
 
-  public void setObject(int iIndex, Object par, int iTargetSQLType, int iScale) throws java.sql.SQLException {
+  public void setObject(int iIndex, Object par, int iTargetSQLType, int iScale) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setObject(iIndex, par, iTargetSQLType, iScale);
   }
 
-  public void setQueryTimeout(int iTimeOut) throws java.sql.SQLException {
+  public void setQueryTimeout(int iTimeOut) throws SQLException {
     pstm.setQueryTimeout(iTimeOut);
   }
 
-  public void setRef(int iIndex, Ref par) throws java.sql.SQLException {
+  public void setRef(int iIndex, Ref par) throws SQLException {
     pstm.setRef(iIndex, par);
   }
 
-  public void setShort(int iIndex, short par) throws java.sql.SQLException {
+  public void setShort(int iIndex, short par) throws SQLException {
     pstm.setShort(iIndex, par);
   }
 
-  public void setString(int iIndex, String par) throws java.sql.SQLException {
+  public void setString(int iIndex, String par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setString(iIndex, par);
   }
 
-  public void setTime(int iIndex, Time par) throws java.sql.SQLException {
+  public void setTime(int iIndex, Time par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setTime(iIndex, par);
   }
 
-  public void setTime(int iIndex, Time par, Calendar cal) throws java.sql.SQLException {
+  public void setTime(int iIndex, Time par, Calendar cal) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setTime(iIndex, par, cal);
   }
 
-  public void setTimestamp(int iIndex, Timestamp par) throws java.sql.SQLException {
+  public void setTimestamp(int iIndex, Timestamp par) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setTimestamp(iIndex, par);
   }
 
-  public void setTimestamp(int iIndex, Timestamp par, Calendar cal) throws java.sql.SQLException {
+  public void setTimestamp(int iIndex, Timestamp par, Calendar cal) throws SQLException {
     mapParameters.put(new Integer(iIndex), par);
     pstm.setTimestamp(iIndex, par, cal);
   }
 
   @SuppressWarnings("deprecation")
-  public void setUnicodeStream(int iIndex, InputStream par, int iLenght) throws java.sql.SQLException {
+  public void setUnicodeStream(int iIndex, InputStream par, int iLenght) throws SQLException {
     pstm.setUnicodeStream(iIndex, par, iLenght);
   }
 

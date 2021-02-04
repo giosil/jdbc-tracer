@@ -8,9 +8,9 @@ import java.sql.Statement;
 
 public class TStatement implements Statement {
 
-  private String sTag = null;
-  private Statement statement;
-  private Tracer tracer;
+  protected String sTag = null;
+  protected Statement statement;
+  protected Tracer tracer;
   protected String sDBMS;
 
   public TStatement(Statement statement, String sTag, Tracer tracer, String sDBMS) {
@@ -20,23 +20,23 @@ public class TStatement implements Statement {
     this.sDBMS = sDBMS;
   }
 
-  public void addBatch(String sSQL) throws java.sql.SQLException {
+  public void addBatch(String sSQL) throws SQLException {
     statement.addBatch(sSQL);
   }
 
-  public void cancel() throws java.sql.SQLException {
+  public void cancel() throws SQLException {
     statement.cancel();
   }
 
-  public void clearBatch() throws java.sql.SQLException {
+  public void clearBatch() throws SQLException {
     statement.clearBatch();
   }
 
-  public void clearWarnings() throws java.sql.SQLException {
+  public void clearWarnings() throws SQLException {
     statement.clearWarnings();
   }
 
-  public void close() throws java.sql.SQLException {
+  public void close() throws SQLException {
     tracer.traceRem("[" + sTag + ".close()]");
     try {
       statement.close();
@@ -46,7 +46,7 @@ public class TStatement implements Statement {
     }
   }
 
-  public boolean execute(String sSQL) throws java.sql.SQLException {
+  public boolean execute(String sSQL) throws SQLException {
     boolean bResult = false;
     tracer.traceRem("[" + sTag + ".execute]");
     tracer.trace(sSQL.trim() + ";");
@@ -114,7 +114,7 @@ public class TStatement implements Statement {
     return bResult;
   }
 
-  public int[] executeBatch() throws java.sql.SQLException {
+  public int[] executeBatch() throws SQLException {
     int[] aiResult = null;
     tracer.traceRem("[" + sTag + ".executeBatch]");
     try {
@@ -126,7 +126,7 @@ public class TStatement implements Statement {
     return aiResult;
   }
 
-  public ResultSet executeQuery(String sSQL) throws java.sql.SQLException {
+  public ResultSet executeQuery(String sSQL) throws SQLException {
     ResultSet rs = null;
     tracer.traceRem("[" + sTag + ".executeQuery]");
     tracer.trace(sSQL.trim() + ";");
@@ -143,7 +143,7 @@ public class TStatement implements Statement {
     return rs;
   }
 
-  public int executeUpdate(String sSQL) throws java.sql.SQLException {
+  public int executeUpdate(String sSQL) throws SQLException {
     int iUpdateCount = 0;
     tracer.traceRem("[" + sTag + ".executeUpdate]");
     tracer.trace(sSQL.trim() + ";");
@@ -211,16 +211,16 @@ public class TStatement implements Statement {
     return iUpdateCount;
   }
 
-  public Connection getConnection() throws java.sql.SQLException {
+  public Connection getConnection() throws SQLException {
     Connection conn = statement.getConnection();
     return new TConnection(conn, getConnectionTag(), tracer, sDBMS);
   }
 
-  public int getFetchDirection() throws java.sql.SQLException {
+  public int getFetchDirection() throws SQLException {
     return statement.getFetchDirection();
   }
 
-  public int getFetchSize() throws java.sql.SQLException {
+  public int getFetchSize() throws SQLException {
     return statement.getFetchSize();
   }
 
@@ -228,15 +228,15 @@ public class TStatement implements Statement {
     return statement.getGeneratedKeys();
   }
 
-  public int getMaxFieldSize() throws java.sql.SQLException {
+  public int getMaxFieldSize() throws SQLException {
     return statement.getMaxFieldSize();
   }
 
-  public int getMaxRows() throws java.sql.SQLException {
+  public int getMaxRows() throws SQLException {
     return statement.getMaxRows();
   }
 
-  public boolean getMoreResults() throws java.sql.SQLException {
+  public boolean getMoreResults() throws SQLException {
     return statement.getMoreResults();
   }
 
@@ -244,15 +244,15 @@ public class TStatement implements Statement {
     return statement.getMoreResults(current);
   }
 
-  public int getQueryTimeout() throws java.sql.SQLException {
+  public int getQueryTimeout() throws SQLException {
     return statement.getQueryTimeout();
   }
 
-  public ResultSet getResultSet() throws java.sql.SQLException {
+  public ResultSet getResultSet() throws SQLException {
     return statement.getResultSet();
   }
 
-  public int getResultSetConcurrency() throws java.sql.SQLException {
+  public int getResultSetConcurrency() throws SQLException {
     return statement.getResultSetConcurrency();
   }
 
@@ -260,52 +260,50 @@ public class TStatement implements Statement {
     return statement.getResultSetHoldability();
   }
 
-  public int getResultSetType() throws java.sql.SQLException {
+  public int getResultSetType() throws SQLException {
     return statement.getResultSetType();
   }
 
-  public int getUpdateCount() throws java.sql.SQLException {
+  public int getUpdateCount() throws SQLException {
     return statement.getUpdateCount();
   }
 
-  public SQLWarning getWarnings() throws java.sql.SQLException {
+  public SQLWarning getWarnings() throws SQLException {
     return statement.getWarnings();
   }
 
-  public void setCursorName(String sCursorName) throws java.sql.SQLException {
+  public void setCursorName(String sCursorName) throws SQLException {
     statement.setCursorName(sCursorName);
   }
 
-  public void setEscapeProcessing(boolean bEscapeProcessing) throws java.sql.SQLException {
+  public void setEscapeProcessing(boolean bEscapeProcessing) throws SQLException {
     statement.setEscapeProcessing(bEscapeProcessing);
   }
 
-  public void setFetchDirection(int iFetchDirection) throws java.sql.SQLException {
+  public void setFetchDirection(int iFetchDirection) throws SQLException {
     statement.setFetchDirection(iFetchDirection);
   }
 
-  public void setFetchSize(int iFecthSize) throws java.sql.SQLException {
+  public void setFetchSize(int iFecthSize) throws SQLException {
     statement.setFetchSize(iFecthSize);
   }
 
-  public void setMaxFieldSize(int iMax) throws java.sql.SQLException {
+  public void setMaxFieldSize(int iMax) throws SQLException {
     statement.setMaxFieldSize(iMax);
   }
 
-  public void setMaxRows(int iMax) throws java.sql.SQLException {
+  public void setMaxRows(int iMax) throws SQLException {
     statement.setMaxRows(iMax);
   }
 
-  public void setQueryTimeout(int iTimeOut) throws java.sql.SQLException {
+  public void setQueryTimeout(int iTimeOut) throws SQLException {
     statement.setQueryTimeout(iTimeOut);
   }
 
   private String getConnectionTag() {
-    if (sTag == null)
-      return null;
+    if (sTag == null) return null;
     int i = sTag.indexOf("@");
-    if (i >= 0)
-      return sTag.substring(i + 1);
+    if (i >= 0) return sTag.substring(i + 1);
     return null;
   }
 

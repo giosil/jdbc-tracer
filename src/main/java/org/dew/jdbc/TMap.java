@@ -15,7 +15,7 @@ class TMap extends HashMap<Integer,Object>
   
   public String transSQL(String sSQL) {
     int iParam = 0;
-    StringBuffer result = new StringBuffer(sSQL.length());
+    StringBuilder result = new StringBuilder(sSQL.length());
     char c;
     boolean bInAString = false;
     for (int i = 0; i < sSQL.length(); i++) {
@@ -37,7 +37,7 @@ class TMap extends HashMap<Integer,Object>
   }
 
   public String toString() {
-    StringBuffer sb = new StringBuffer("{");
+    StringBuilder sb = new StringBuilder("{");
     List<Integer> listKeys = new ArrayList<Integer>();
     Iterator<Integer> itKeys = this.keySet().iterator();
     while (itKeys.hasNext()) {
@@ -68,7 +68,7 @@ class TMap extends HashMap<Integer,Object>
   }
   
   private static String doubleQuotes(String text) {
-    StringBuffer result = new StringBuffer(text.length());
+    StringBuilder result = new StringBuilder(text.length());
     char c;
     for (int i = 0; i < text.length(); i++) {
       c = text.charAt(i);

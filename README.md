@@ -13,7 +13,7 @@ jdbc:oracle:thin:@localhost:1521:orcl
         becomes
 
 org.dew.jdbc.drivers OracleDriverTracer
-jdbc:dew:thin:@localhost:1521:orcl
+jdbc:woracle:thin:@localhost:1521:orcl
 ```
 
 ### MySQL
@@ -24,7 +24,7 @@ jdbc:mysql://localhost/database
         becomes
 
 org.dew.jdbc.drivers MySQLDriverTracer
-jdbc:dew://localhost/database
+jdbc:wmysql://localhost/database
 ```
 
 ### MariaDB
@@ -35,7 +35,7 @@ jdbc:mariadb://localhost/database
         becomes
 
 org.dew.jdbc.drivers MariaDBTracer
-jdbc:dew://localhost/database
+jdbc:wmariadb://localhost/database
 ```
 
 ### PostgreSQL
@@ -46,7 +46,7 @@ jdbc:postgresql://host/database
         becomes
 
 org.dew.jdbc.drivers PostgreSQLDriverTracer
-jdbc:dew://host/database
+jdbc:wpostgresql://host/database
 ```
 
 ### HSQLDB
@@ -57,7 +57,7 @@ jdbc:hsqldb:res:test
         becomes
 
 org.dew.jdbc.drivers.HSQLDBDriverTracer
-jdbc:dew:res:test
+jdbc:whsqldb:res:test
 ```
 
 ### H2
@@ -68,7 +68,7 @@ jdbc:h2:mem:test
         becomes
 
 org.dew.jdbc.drivers.H2DriverTracer
-jdbc:dew:mem:test
+jdbc:wh2:mem:test
 ```
 
 ### SQLServer
@@ -79,7 +79,18 @@ jdbc:sqlserver://host;database=test
         becomes
 
 org.dew.jdbc.drivers.SQLServerTracer
-jdbc:dew://host;database=test
+jdbc:wsqlserver://host;database=test
+```
+
+### ODBC
+```
+sun.jdbc.odbc.JdbcOdbcDriver
+jdbc:odbc:test
+
+        becomes
+
+org.dew.jdbc.drivers.ODBCDriverTracer
+jdbc:wodbc:test
 ```
 
 ## Build

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<server xmlns="urn:jboss:domain:4.1">
+...
+        <subsystem xmlns="urn:jboss:domain:datasources:4.0">
+            <datasources>
+
+                <datasource jta="true" jndi-name="java:/jdbc/db_test" pool-name="db_test" enabled="true" use-ccm="true">
+                    <connection-url>jdbc:woracle:thin:@localhost:1521:orcl</connection-url>
+                    <driver-class>org.dew.jdbc.drivers.OracleDriverTracer</driver-class>
+                    <driver>dew</driver>
+                    <pool>
+                        <min-pool-size>2</min-pool-size>
+                        <initial-pool-size>4</initial-pool-size>
+                        <max-pool-size>32</max-pool-size>
+                    </pool>
+                    <security>
+                        <user-name>TEST</user-name>
+                        <password>TEST</password>
+                    </security>
+                </datasource>
+
+                <drivers>
+                    <driver name="dew" module="org.dew.jdbc">
+                        <xa-datasource-class>org.dew.jdbc.TDataSource</xa-datasource-class>
+                    </driver>
+                </drivers>
+
+            </datasources>
+        </subsystem>
+...
+</server>

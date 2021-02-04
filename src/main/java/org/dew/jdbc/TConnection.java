@@ -1,27 +1,14 @@
 package org.dew.jdbc;
 
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Struct;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.SQLClientInfoException;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
-import java.sql.DatabaseMetaData;
-import java.sql.NClob;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
+import java.sql.*;
+
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
-import java.sql.Connection;
 
 public class TConnection implements Connection {
 
-  private static int iCount = 0;
+  protected static int iCount = 0;
 
   protected Connection conn;
   protected String sTag = null;
@@ -35,11 +22,11 @@ public class TConnection implements Connection {
     this.sDBMS = sDBMS;
   }
 
-  public void clearWarnings() throws java.sql.SQLException {
+  public void clearWarnings() throws SQLException {
     conn.clearWarnings();
   }
 
-  public void close() throws java.sql.SQLException {
+  public void close() throws SQLException {
     tracer.traceRem("[" + sTag + ".close()]");
     try {
       conn.close();
@@ -49,7 +36,7 @@ public class TConnection implements Connection {
     }
   }
 
-  public void commit() throws java.sql.SQLException {
+  public void commit() throws SQLException {
     tracer.traceRem("[" + sTag + ".commit()]");
     tracer.trace("commit;");
     try {
@@ -60,7 +47,7 @@ public class TConnection implements Connection {
     }
   }
 
-  public Statement createStatement() throws java.sql.SQLException {
+  public Statement createStatement() throws SQLException {
     try {
       Statement stm = conn.createStatement();
       iCount++;
@@ -73,13 +60,12 @@ public class TConnection implements Connection {
     }
   }
 
-  public Statement createStatement(int resultSetType, int resultSetConcurrency) throws java.sql.SQLException {
+  public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
     try {
       Statement stm = conn.createStatement(resultSetType, resultSetConcurrency);
       iCount++;
       String sStmTag = getStatementTag();
-      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".createStatement(" + resultSetType + ","
-          + resultSetConcurrency + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".createStatement(" + resultSetType + "," + resultSetConcurrency + ")]");
       return new TStatement(stm, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -87,14 +73,12 @@ public class TConnection implements Connection {
     }
   }
 
-  public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability)
-      throws SQLException {
+  public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
     try {
       Statement stm = conn.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
       iCount++;
       String sStmTag = getStatementTag();
-      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".createStatement(" + resultSetType + ","
-          + resultSetConcurrency + "," + resultSetHoldability + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".createStatement(" + resultSetType + "," + resultSetConcurrency + "," + resultSetHoldability + ")]");
       return new TStatement(stm, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -102,11 +86,11 @@ public class TConnection implements Connection {
     }
   }
 
-  public boolean getAutoCommit() throws java.sql.SQLException {
+  public boolean getAutoCommit() throws SQLException {
     return conn.getAutoCommit();
   }
 
-  public String getCatalog() throws java.sql.SQLException {
+  public String getCatalog() throws SQLException {
     return conn.getCatalog();
   }
 
@@ -114,48 +98,47 @@ public class TConnection implements Connection {
     return conn.getHoldability();
   }
 
-  public DatabaseMetaData getMetaData() throws java.sql.SQLException {
+  public DatabaseMetaData getMetaData() throws SQLException {
     return conn.getMetaData();
   }
 
-  public int getTransactionIsolation() throws java.sql.SQLException {
+  public int getTransactionIsolation() throws SQLException {
     return conn.getTransactionIsolation();
   }
 
-  public Map<String, Class<?>> getTypeMap() throws java.sql.SQLException {
+  public Map<String, Class<?>> getTypeMap() throws SQLException {
     return conn.getTypeMap();
   }
 
-  public SQLWarning getWarnings() throws java.sql.SQLException {
+  public SQLWarning getWarnings() throws SQLException {
     return conn.getWarnings();
   }
 
-  public boolean isClosed() throws java.sql.SQLException {
+  public boolean isClosed() throws SQLException {
     return conn.isClosed();
   }
 
-  public boolean isReadOnly() throws java.sql.SQLException {
+  public boolean isReadOnly() throws SQLException {
     return conn.isReadOnly();
   }
 
-  public String nativeSQL(String sSQL) throws java.sql.SQLException {
+  public String nativeSQL(String sSQL) throws SQLException {
     return conn.nativeSQL(sSQL);
   }
 
-  public CallableStatement prepareCall(String sSQL) throws java.sql.SQLException {
+  public CallableStatement prepareCall(String sSQL) throws SQLException {
     return conn.prepareCall(sSQL);
   }
 
-  public CallableStatement prepareCall(String sSQL, int iRsType, int iRsConcurrency) throws java.sql.SQLException {
+  public CallableStatement prepareCall(String sSQL, int iRsType, int iRsConcurrency) throws SQLException {
     return conn.prepareCall(sSQL, iRsType, iRsConcurrency);
   }
 
-  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency,
-      int resultSetHoldability) throws SQLException {
+  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
     return conn.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
   }
 
-  public PreparedStatement prepareStatement(String sSQL) throws java.sql.SQLException {
+  public PreparedStatement prepareStatement(String sSQL) throws SQLException {
     try {
       PreparedStatement pstm = conn.prepareStatement(sSQL);
       iCount++;
@@ -173,8 +156,7 @@ public class TConnection implements Connection {
       PreparedStatement pstm = conn.prepareStatement(sSQL, autoGeneratedKeys);
       iCount++;
       String sStmTag = getPreparedStatementTag();
-      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\","
-          + autoGeneratedKeys + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + autoGeneratedKeys + ")]");
       return new TPreparedStatement(pstm, sSQL, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -182,14 +164,12 @@ public class TConnection implements Connection {
     }
   }
 
-  public PreparedStatement prepareStatement(String sSQL, int iRsType, int iRsConcurrency)
-      throws java.sql.SQLException {
+  public PreparedStatement prepareStatement(String sSQL, int iRsType, int iRsConcurrency) throws SQLException {
     try {
       PreparedStatement pstm = conn.prepareStatement(sSQL, iRsType, iRsConcurrency);
       iCount++;
       String sStmTag = getPreparedStatementTag();
-      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + iRsType
-          + "," + iRsConcurrency + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + iRsType + "," + iRsConcurrency + ")]");
       return new TPreparedStatement(pstm, sSQL, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -197,15 +177,12 @@ public class TConnection implements Connection {
     }
   }
 
-  public PreparedStatement prepareStatement(String sSQL, int resultSetType, int resultSetConcurrency,
-      int resultSetHoldability) throws SQLException {
+  public PreparedStatement prepareStatement(String sSQL, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
     try {
-      PreparedStatement pstm = conn.prepareStatement(sSQL, resultSetType, resultSetConcurrency,
-          resultSetHoldability);
+      PreparedStatement pstm = conn.prepareStatement(sSQL, resultSetType, resultSetConcurrency, resultSetHoldability);
       iCount++;
       String sStmTag = getPreparedStatementTag();
-      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\","
-          + resultSetType + "," + resultSetConcurrency + "," + resultSetHoldability + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + resultSetType + "," + resultSetConcurrency + "," + resultSetHoldability + ")]");
       return new TPreparedStatement(pstm, sSQL, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -218,8 +195,7 @@ public class TConnection implements Connection {
       PreparedStatement pstm = conn.prepareStatement(sSQL, columnIndexes);
       iCount++;
       String sStmTag = getPreparedStatementTag();
-      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\","
-          + columnIndexes + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + columnIndexes + ")]");
       return new TPreparedStatement(pstm, sSQL, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -232,8 +208,7 @@ public class TConnection implements Connection {
       PreparedStatement pstm = conn.prepareStatement(sSQL, columnNames);
       iCount++;
       String sStmTag = getPreparedStatementTag();
-      tracer.traceRem(
-          "[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + columnNames + ")]");
+      tracer.traceRem("[" + sStmTag + " created by " + sTag + ".prepareStatement(\"" + sSQL + "\"," + columnNames + ")]");
       return new TPreparedStatement(pstm, sSQL, sStmTag, tracer, sDBMS);
     } catch (SQLException ex) {
       tracer.traceException(ex);
@@ -245,7 +220,7 @@ public class TConnection implements Connection {
     conn.releaseSavepoint(savepoint);
   }
 
-  public void rollback() throws java.sql.SQLException {
+  public void rollback() throws SQLException {
     tracer.traceRem("[" + sTag + ".rollback()]");
     tracer.trace("rollback;");
     try {
@@ -260,7 +235,7 @@ public class TConnection implements Connection {
     conn.rollback(savepoint);
   }
 
-  public void setAutoCommit(boolean bAutoCommit) throws java.sql.SQLException {
+  public void setAutoCommit(boolean bAutoCommit) throws SQLException {
     tracer.traceRem("[" + sTag + ".setAutoCommit(" + bAutoCommit + ")]");
     try {
       conn.setAutoCommit(bAutoCommit);
@@ -270,7 +245,7 @@ public class TConnection implements Connection {
     }
   }
 
-  public void setCatalog(String sCatalog) throws java.sql.SQLException {
+  public void setCatalog(String sCatalog) throws SQLException {
     conn.setCatalog(sCatalog);
   }
 
@@ -278,7 +253,7 @@ public class TConnection implements Connection {
     conn.setHoldability(holdability);
   }
 
-  public void setReadOnly(boolean bReadOnly) throws java.sql.SQLException {
+  public void setReadOnly(boolean bReadOnly) throws SQLException {
     tracer.traceRem("[" + sTag + ".setReadOnly(" + bReadOnly + ")]");
     try {
       conn.setReadOnly(bReadOnly);
@@ -296,7 +271,7 @@ public class TConnection implements Connection {
     return conn.setSavepoint(name);
   }
 
-  public void setTransactionIsolation(int iTransIsolation) throws java.sql.SQLException {
+  public void setTransactionIsolation(int iTransIsolation) throws SQLException {
     conn.setTransactionIsolation(iTransIsolation);
   }
 
