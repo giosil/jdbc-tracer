@@ -26,7 +26,7 @@ public
 class TDataSource implements XADataSource, DataSource, ConnectionPoolDataSource, Serializable, Referenceable
 {
   private static final long serialVersionUID = -5894636772842344062L;
-
+  
   protected transient PrintWriter logWriter;
 
   protected int loginTimeout = 0;
@@ -76,24 +76,22 @@ class TDataSource implements XADataSource, DataSource, ConnectionPoolDataSource,
   @Override
   public Reference getReference() throws NamingException {
     String factoryClassName = TObjectFactory.class.getName();
-    
     Reference reference = new Reference(getClass().getName(), factoryClassName, null);
     reference.add(new StringRefAddr("url",  this.url));
     reference.add(new StringRefAddr("user", this.userName));
     reference.add(new StringRefAddr("password", convertToString(this.passwordChars)));
     reference.add(new StringRefAddr("loginTimeout", String.valueOf(this.loginTimeout)));
-    
     return reference;
   }
 
   @Override
   public PooledConnection getPooledConnection() throws SQLException {
-    return new TXAConnection(getConnection());
+    return new TXAConnection(ConnectionFactory.getConnection(this.url, this.userName, convertToString(this.passwordChars)));
   }
 
   @Override
   public PooledConnection getPooledConnection(String username, String password) throws SQLException {
-    return new TXAConnection(getConnection(username, password));
+    return new TXAConnection(ConnectionFactory.getConnection(this.url, username, password));
   }
 
   @Override
@@ -108,12 +106,12 @@ class TDataSource implements XADataSource, DataSource, ConnectionPoolDataSource,
 
   @Override
   public XAConnection getXAConnection() throws SQLException {
-    return new TXAConnection(getConnection());
+    return new TXAConnection(ConnectionFactory.getConnection(this.url, this.userName, convertToString(this.passwordChars)));
   }
 
   @Override
   public XAConnection getXAConnection(String username, String password) throws SQLException {
-    return new TXAConnection(getConnection(username, password));
+    return new TXAConnection(ConnectionFactory.getConnection(this.url, username, password));
   }
   
   public String getURL() {

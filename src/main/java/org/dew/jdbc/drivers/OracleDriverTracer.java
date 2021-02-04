@@ -1,9 +1,6 @@
 package org.dew.jdbc.drivers;
 
 import org.dew.jdbc.*;
-import org.dew.jdbc.impl.*;
-
-import java.io.File;
 
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -18,15 +15,15 @@ import java.sql.DriverManager;
 public 
 class OracleDriverTracer implements Driver 
 {
-  private static int iCount = 0;
-  private static final String sPREFIX = "jdbc:woracle:";
-  private static String sDefFileName = System.getProperty("user.home") + File.separator + "oracle_trace.sql";
+  protected static int iCount = 0;
+  protected static final String sPREFIX = "jdbc:woracle:";
 
-  private static Driver m_defaultDriver;
+  protected static Driver m_defaultDriver;
 
   static {
     try {
       m_defaultDriver = (Driver) Class.forName("oracle.jdbc.driver.OracleDriver").newInstance();
+      
       DriverManager.registerDriver(new OracleDriverTracer());
     }
     catch (Exception ex) {
@@ -35,7 +32,7 @@ class OracleDriverTracer implements Driver
   }
 
   public Connection connect(String sURL, Properties oInfo) throws java.sql.SQLException {
-    Tracer tracer = getDefaultTracer();
+    Tracer tracer = TracerFactory.getTracer("oracle_trace.sql");
     tracer.traceRem("[OracleDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
     Connection conn = null;
     String sTag = null;
@@ -43,7 +40,7 @@ class OracleDriverTracer implements Driver
       String sRealURL = getRealURL(sURL);
       conn = m_defaultDriver.connect(sRealURL, oInfo);
       iCount++;
-      sTag = getTag(sRealURL);
+      sTag = "C" + iCount;
       String sTextRem = "[Connection " + sTag;
       sTextRem += " opened at " + new java.sql.Timestamp(System.currentTimeMillis());
       sTextRem += " URL = " + sRealURL;
@@ -82,21 +79,6 @@ class OracleDriverTracer implements Driver
 
   private static String getRealURL(String sURL) {
     return "jdbc:oracle:" + sURL.substring(sPREFIX.length());
-  }
-
-  private String getTag(String sUrl) {
-    return "C" + iCount;
-  }
-
-  private Tracer getDefaultTracer() {
-    Tracer tracer = null;
-    try {
-      tracer = new FileTracer(sDefFileName, "-- ");
-    } 
-    catch (Exception ex) {
-      tracer = new NullTracer();
-    }
-    return tracer;
   }
 
   public Logger getParentLogger() throws SQLFeatureNotSupportedException {
