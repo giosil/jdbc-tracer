@@ -16,7 +16,10 @@ org.dew.jdbc.drivers OracleDriverTracer
 jdbc:woracle:thin:@localhost:1521:orcl
 ```
 
+**Log file:** $HOME/oracle_trace.sql
+
 ### MySQL
+
 ```
 com.mysql.jdbc.Driver
 jdbc:mysql://localhost/database
@@ -27,7 +30,10 @@ org.dew.jdbc.drivers MySQLDriverTracer
 jdbc:wmysql://localhost/database
 ```
 
+**Log files:** $HOME/mysql_trace.sql
+
 ### MariaDB
+
 ```
 org.mariadb.jdbc.Driver
 jdbc:mariadb://localhost/database
@@ -38,7 +44,10 @@ org.dew.jdbc.drivers MariaDBTracer
 jdbc:wmariadb://localhost/database
 ```
 
+**Log files:** $HOME/mariadb_trace.sql
+
 ### PostgreSQL
+
 ```
 org.postgresql.Driver
 jdbc:postgresql://host/database
@@ -49,7 +58,10 @@ org.dew.jdbc.drivers PostgreSQLDriverTracer
 jdbc:wpostgresql://host/database
 ```
 
+**Log files:** $HOME/postgresql_trace.sql
+
 ### HSQLDB
+
 ```
 org.hsqldb.jdbcDriver
 jdbc:hsqldb:res:test
@@ -60,7 +72,10 @@ org.dew.jdbc.drivers.HSQLDBDriverTracer
 jdbc:whsqldb:res:test
 ```
 
+**Log files:** $HOME/hsqldb_trace.sql
+
 ### H2
+
 ```
 org.h2.Driver
 jdbc:h2:mem:test
@@ -71,7 +86,10 @@ org.dew.jdbc.drivers.H2DriverTracer
 jdbc:wh2:mem:test
 ```
 
+**Log files:** $HOME/h2_trace.sql
+
 ### SQLServer
+
 ```
 com.microsoft.sqlserver.jdbc.SQLServerDriver
 jdbc:sqlserver://host;database=test
@@ -82,7 +100,10 @@ org.dew.jdbc.drivers.SQLServerTracer
 jdbc:wsqlserver://host;database=test
 ```
 
+**Log files:** $HOME/sqls_trace.sql
+
 ### ODBC
+
 ```
 sun.jdbc.odbc.JdbcOdbcDriver
 jdbc:odbc:test
@@ -92,6 +113,8 @@ jdbc:odbc:test
 org.dew.jdbc.drivers.ODBCDriverTracer
 jdbc:wodbc:test
 ```
+
+**Log files:** $HOME/odbc_trace.sql
 
 ## Build
 

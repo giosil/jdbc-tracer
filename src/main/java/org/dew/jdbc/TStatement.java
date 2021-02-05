@@ -21,18 +21,22 @@ public class TStatement implements Statement {
   }
 
   public void addBatch(String sSQL) throws SQLException {
+    tracer.traceRem("[" + sTag + ".addBatch(" + sSQL + ")]");
     statement.addBatch(sSQL);
   }
 
   public void cancel() throws SQLException {
+    tracer.traceRem("[" + sTag + ".cancel]");
     statement.cancel();
   }
 
   public void clearBatch() throws SQLException {
+    tracer.traceRem("[" + sTag + ".clearBatch]");
     statement.clearBatch();
   }
 
   public void clearWarnings() throws SQLException {
+    tracer.traceRem("[" + sTag + ".clearWarnings]");
     statement.clearWarnings();
   }
 
@@ -285,18 +289,22 @@ public class TStatement implements Statement {
   }
 
   public void setFetchSize(int iFecthSize) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setFetchSize(" + iFecthSize + ")]");
     statement.setFetchSize(iFecthSize);
   }
 
   public void setMaxFieldSize(int iMax) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setMaxFieldSize(" + iMax + ")]");
     statement.setMaxFieldSize(iMax);
   }
 
   public void setMaxRows(int iMax) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setMaxRows(" + iMax + ")]");
     statement.setMaxRows(iMax);
   }
 
   public void setQueryTimeout(int iTimeOut) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setQueryTimeout(" + iTimeOut + ")]");
     statement.setQueryTimeout(iTimeOut);
   }
 
@@ -320,6 +328,7 @@ public class TStatement implements Statement {
   }
 
   public void setPoolable(boolean poolable) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setPoolable(" + poolable + ")]");
     statement.setPoolable(poolable);
   }
 
@@ -328,6 +337,7 @@ public class TStatement implements Statement {
   }
 
   public void closeOnCompletion() throws SQLException {
+    tracer.traceRem("[" + sTag + ".closeOnCompletion()]");
     statement.closeOnCompletion();
   }
 

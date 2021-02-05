@@ -2,23 +2,62 @@ package org.dew.jdbc.impl;
 
 import org.dew.jdbc.Tracer;
 
+import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
-public class FileTracer implements Tracer {
-
-  protected PrintWriter printWriter;
-  protected FileOutputStream fileOutputStream;
+public 
+class FileTracer implements Tracer 
+{
+  protected PrintWriter  printWriter;
+  protected OutputStream outputStream;
   protected String sCommentTag = "-- ";
-
-  public FileTracer(String sFileName) throws Exception {
-    fileOutputStream = new FileOutputStream(sFileName, true);
-    printWriter = new PrintWriter(fileOutputStream);
+  
+  public 
+  FileTracer(String sFileName) 
+    throws Exception 
+  {
+    outputStream = new FileOutputStream(sFileName, true);
+    printWriter  = new PrintWriter(outputStream);
   }
-
-  public FileTracer(String sFileName, String sCommentTag) throws Exception {
+  
+  public 
+  FileTracer(String sFileName, String sCommentTag) 
+    throws Exception 
+  {
     this(sFileName);
+    this.sCommentTag = sCommentTag;
+  }
+  
+  public 
+  FileTracer(File file) 
+    throws Exception 
+  {
+    outputStream = new FileOutputStream(file, true);
+    printWriter  = new PrintWriter(outputStream);
+  }
+  
+  public 
+  FileTracer(File file, String sCommentTag) 
+    throws Exception 
+  {
+    this(file);
+    this.sCommentTag = sCommentTag;
+  }
+  
+  public 
+  FileTracer(OutputStream os) 
+    throws Exception 
+  {
+    printWriter  = new PrintWriter(os);
+  }
+  
+  public 
+  FileTracer(OutputStream os, String sCommentTag) 
+    throws Exception 
+  {
+    this(os);
     this.sCommentTag = sCommentTag;
   }
   
@@ -41,7 +80,8 @@ public class FileTracer implements Tracer {
     if (sCommentTag != null) {
       sMessage = sCommentTag + "Exception: ";
       sMessage += throwable.getMessage();
-    } else {
+    } 
+    else {
       sMessage = "[Exception: ";
       sMessage += throwable.getMessage() + "]";
     }
@@ -51,10 +91,14 @@ public class FileTracer implements Tracer {
 
   public void finalize() {
     try {
-      printWriter.close();
-      fileOutputStream.close();
+      if(outputStream  != null) outputStream.close();
     } 
-    catch (IOException ex) {
+    catch (Exception ex) {
+    }
+    try {
+      if(printWriter  != null) printWriter.close();
+    } 
+    catch (Exception ex) {
     }
   }
 }

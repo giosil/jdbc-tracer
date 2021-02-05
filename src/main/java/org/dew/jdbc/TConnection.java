@@ -23,6 +23,7 @@ public class TConnection implements Connection {
   }
 
   public void clearWarnings() throws SQLException {
+    tracer.traceRem("[" + sTag + ".clearWarnings()]");
     conn.clearWarnings();
   }
 
@@ -217,6 +218,7 @@ public class TConnection implements Connection {
   }
 
   public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+    tracer.traceRem("[" + sTag + ".releaseSavepoint(" + savepoint + ")]");
     conn.releaseSavepoint(savepoint);
   }
 
@@ -232,6 +234,7 @@ public class TConnection implements Connection {
   }
 
   public void rollback(Savepoint savepoint) throws SQLException {
+    tracer.traceRem("[" + sTag + ".rollback(" + savepoint + ")]");
     conn.rollback(savepoint);
   }
 
@@ -246,10 +249,12 @@ public class TConnection implements Connection {
   }
 
   public void setCatalog(String sCatalog) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setCatalog(" + sCatalog + ")]");
     conn.setCatalog(sCatalog);
   }
 
   public void setHoldability(int holdability) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setHoldability(" + holdability + ")]");
     conn.setHoldability(holdability);
   }
 
@@ -264,14 +269,17 @@ public class TConnection implements Connection {
   }
 
   public Savepoint setSavepoint() throws SQLException {
+    tracer.traceRem("[" + sTag + ".setSavepoint()]");
     return conn.setSavepoint();
   }
 
   public Savepoint setSavepoint(String name) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setSavepoint(" + name + ")]");
     return conn.setSavepoint(name);
   }
 
   public void setTransactionIsolation(int iTransIsolation) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setTransactionIsolation(" + iTransIsolation + ")]");
     conn.setTransactionIsolation(iTransIsolation);
   }
 
@@ -316,6 +324,7 @@ public class TConnection implements Connection {
   }
 
   public void setClientInfo(String name, String value) throws SQLClientInfoException {
+    tracer.traceRem("[" + sTag + ".setClientInfo(" + name + "," + value + ")]");
     conn.setClientInfo(name, value);
   }
 
@@ -340,6 +349,7 @@ public class TConnection implements Connection {
   }
 
   public void setSchema(String schema) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setSchema(" + schema + ")]");
     conn.setSchema(schema);
   }
 
@@ -348,10 +358,12 @@ public class TConnection implements Connection {
   }
 
   public void abort(Executor executor) throws SQLException {
+    tracer.traceRem("[" + sTag + ".abort(" + executor + ")]");
     conn.abort(executor);
   }
 
   public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setNetworkTimeout(" + executor + "," + milliseconds + ")]");
     conn.setNetworkTimeout(executor, milliseconds);
   }
 

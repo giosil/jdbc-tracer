@@ -2,7 +2,9 @@ package org.dew.jdbc.impl;
 
 import org.dew.jdbc.Tracer;
 
-public class SystemOutTracer implements Tracer {
+public 
+class SystemOutTracer implements Tracer 
+{
   protected String sCommentTag = "-- ";
 
   public SystemOutTracer() {
@@ -28,7 +30,8 @@ public class SystemOutTracer implements Tracer {
     if (sCommentTag != null) {
       sMessage = sCommentTag + "Exception: ";
       sMessage += throwable.getMessage();
-    } else {
+    } 
+    else {
       sMessage = "[Exception: ";
       sMessage += throwable.getMessage() + "]";
     }

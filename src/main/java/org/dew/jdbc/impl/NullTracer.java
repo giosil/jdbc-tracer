@@ -2,7 +2,9 @@ package org.dew.jdbc.impl;
 
 import org.dew.jdbc.Tracer;
 
-public class NullTracer implements Tracer {
+public 
+class NullTracer implements Tracer 
+{
   public NullTracer() {
   }
   

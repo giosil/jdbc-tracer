@@ -26,6 +26,7 @@ public class TPreparedStatement implements PreparedStatement {
     this.sTag = sTag;
     this.tracer = tracer;
     this.sDBMS = sDBMS;
+    
     mapParameters = new TMap(sDBMS);
   }
 
@@ -40,19 +41,23 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void cancel() throws SQLException {
+    tracer.traceRem("[" + sTag + ".cancel]");
     pstm.cancel();
   }
 
   public void clearBatch() throws SQLException {
+    tracer.traceRem("[" + sTag + ".clearBatch]");
     pstm.clearBatch();
   }
 
   public void clearParameters() throws SQLException {
+    tracer.traceRem("[" + sTag + ".clearParameters]");
     mapParameters.clear();
     pstm.clearParameters();
   }
 
   public void clearWarnings() throws SQLException {
+    tracer.traceRem("[" + sTag + ".clearWarnings]");
     pstm.clearWarnings();
   }
 
@@ -529,11 +534,9 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   private String getConnectionTag() {
-    if (sTag == null)
-      return null;
+    if (sTag == null) return null;
     int i = sTag.indexOf("@");
-    if (i >= 0)
-      return sTag.substring(i + 1);
+    if (i >= 0) return sTag.substring(i + 1);
     return null;
   }
 
@@ -542,6 +545,7 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setPoolable(boolean poolable) throws SQLException {
+    tracer.traceRem("[" + sTag + ".setPoolable(" + poolable + ")]");
     pstm.setPoolable(poolable);
   }
 
@@ -550,6 +554,7 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void closeOnCompletion() throws SQLException {
+    tracer.traceRem("[" + sTag + ".closeOnCompletion]");
     pstm.closeOnCompletion();
   }
 
