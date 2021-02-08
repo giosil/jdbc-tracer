@@ -1,0 +1,15 @@
+<Context path="" crossContext="true">
+
+	<Resource
+		name="jdbc/db_test"
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="org.dew.jdbc.drivers.OracleDriverTracer"
+		url="jdbc:woracle:thin:@localhost:1521:ORCL"
+		username="TEST"
+		password="TEST"
+		maxActive="3"
+		maxWait="100000"
+	/>
+
+</Context>

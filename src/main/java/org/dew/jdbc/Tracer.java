@@ -4,23 +4,23 @@ public
 interface Tracer 
 {
   /**
-   * Traccia i commenti.
+   * Info trace.
    * 
-   * @param sText Text
+   * @param text text to trace
    */
-  public void traceRem(String sText);
-
-  /**
-   * Traccia i comandi sql.
-   * 
-   * @param sText Text
-   */
-  public void trace(String sText);
+  public void info(String text);
   
   /**
-   * Traccia le eccezioni.
+   * Debug trace (SQL Statement).
    * 
-   * @param throwable Oggetto Throwable
+   * @param text text to trace
    */
-  public void traceException(Throwable throwable);
+  public void debug(String text);
+  
+  /**
+   * Error trace.
+   * 
+   * @param throwable Throwable object
+   */
+  public void error(Throwable throwable);
 }

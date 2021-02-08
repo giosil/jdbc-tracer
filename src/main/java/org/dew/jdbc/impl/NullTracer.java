@@ -9,14 +9,14 @@ class NullTracer implements Tracer
   }
   
   @Override
-  public void traceRem(String sText) {
+  public void info(String text) {
   }
   
   @Override
-  public void trace(String sText) {
+  public void debug(String text) {
   }
   
   @Override
-  public void traceException(Throwable throwable) {
+  public void error(Throwable throwable) {
   }
 }

@@ -33,7 +33,7 @@ class MySQLDriverTracer implements Driver
 
   public Connection connect(String sURL, Properties oInfo) throws java.sql.SQLException {
     Tracer tracer = TracerFactory.getTracer("mysql_trace.sql");
-    tracer.traceRem("[MySQLDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
+    tracer.info("[MySQLDriverTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
     Connection conn = null;
     String sTag = null;
     try {
@@ -47,10 +47,10 @@ class MySQLDriverTracer implements Driver
       sTextRem += ", Info = " + oInfo;
       sTextRem += ", AutoCommit = " + conn.getAutoCommit();
       sTextRem += "]";
-      tracer.traceRem(sTextRem);
+      tracer.info(sTextRem);
     } 
     catch (SQLException ex) {
-      tracer.traceException(ex);
+      tracer.error(ex);
       throw ex;
     }
     return new TConnection(conn, sTag, tracer, "mysql");

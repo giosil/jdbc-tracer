@@ -1,102 +1,126 @@
 package org.dew.jdbc.impl;
 
 import org.dew.jdbc.Tracer;
+import org.dew.jdbc.TracerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 
 public 
 class FileTracer implements Tracer 
 {
-  protected PrintWriter  printWriter;
-  protected OutputStream outputStream;
-  protected String sCommentTag = "-- ";
+  protected PrintStream ps;
+  protected String comment = "-- ";
   
   public 
-  FileTracer(String sFileName) 
+  FileTracer(String fileName) 
     throws Exception 
   {
-    outputStream = new FileOutputStream(sFileName, true);
-    printWriter  = new PrintWriter(outputStream);
+    if(fileName == null || fileName.length() == 0) {
+      fileName = "trace.sql";
+    }
+    
+    ps = new PrintStream(new FileOutputStream(fileName, true));
   }
   
   public 
-  FileTracer(String sFileName, String sCommentTag) 
+  FileTracer(String fileName, String comment) 
     throws Exception 
   {
-    this(sFileName);
-    this.sCommentTag = sCommentTag;
+    this(fileName);
+    
+    if(comment == null) comment = "";
+    this.comment = comment;
   }
   
   public 
   FileTracer(File file) 
     throws Exception 
   {
-    outputStream = new FileOutputStream(file, true);
-    printWriter  = new PrintWriter(outputStream);
+    if(file == null) file = new File("trace.sql");
+    
+    ps = new PrintStream(new FileOutputStream(file, true));
   }
   
   public 
-  FileTracer(File file, String sCommentTag) 
+  FileTracer(File file, String comment) 
     throws Exception 
   {
     this(file);
-    this.sCommentTag = sCommentTag;
+    
+    if(comment == null) comment = "";
+    this.comment = comment;
   }
   
   public 
   FileTracer(OutputStream os) 
     throws Exception 
   {
-    printWriter  = new PrintWriter(os);
+    ps = new PrintStream(os);
   }
   
   public 
-  FileTracer(OutputStream os, String sCommentTag) 
+  FileTracer(OutputStream os, String comment) 
     throws Exception 
   {
     this(os);
-    this.sCommentTag = sCommentTag;
+    
+    if(comment == null) comment = "";
+    this.comment = comment;
+  }
+  
+  public 
+  FileTracer(PrintStream printStream) 
+    throws Exception 
+  {
+    ps = printStream;
+  }
+  
+  public 
+  FileTracer(PrintStream printStream, String comment) 
+    throws Exception 
+  {
+    ps = printStream;
+    
+    if(comment == null) comment = "";
+    this.comment = comment;
   }
   
   @Override
-  public void traceRem(String sText) {
-    if (sCommentTag == null)  return;
-    printWriter.println(sCommentTag + sText);
-    printWriter.flush();
+  public void info(String text) {
+    if(!TracerFactory.INFO || !TracerFactory.ENABLED) return;
+    
+    ps.println(comment + text);
+    ps.flush();
   }
   
   @Override
-  public void trace(String sText) {
-    printWriter.println(sText);
-    printWriter.flush();
+  public void debug(String text) {
+    if(!TracerFactory.DEBUG || !TracerFactory.ENABLED) return;
+    
+    ps.println(text);
+    ps.flush();
   }
   
   @Override
-  public void traceException(Throwable throwable) {
-    String sMessage = null;
-    if (sCommentTag != null) {
-      sMessage = sCommentTag + "Exception: ";
-      sMessage += throwable.getMessage();
-    } 
-    else {
-      sMessage = "[Exception: ";
-      sMessage += throwable.getMessage() + "]";
+  public void error(Throwable throwable) {
+    if(!TracerFactory.ERROR || !TracerFactory.ENABLED) return;
+    
+    String message = comment + "Exception";
+    if (throwable != null) {
+      message += ": " + throwable.getMessage();
     }
-    printWriter.println(sMessage);
-    printWriter.flush();
+    ps.println(message);
+    ps.flush();
   }
-
-  public void finalize() {
+  
+  public 
+  void finalize() 
+  {
     try {
-      if(outputStream  != null) outputStream.close();
-    } 
-    catch (Exception ex) {
-    }
-    try {
-      if(printWriter  != null) printWriter.close();
+      if(ps  != null) ps.close();
     } 
     catch (Exception ex) {
     }

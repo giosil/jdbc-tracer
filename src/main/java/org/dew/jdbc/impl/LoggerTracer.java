@@ -1,17 +1,23 @@
 package org.dew.jdbc.impl;
 
+import java.util.logging.Logger;
+
 import org.dew.jdbc.Tracer;
 import org.dew.jdbc.TracerFactory;
 
 public 
-class SystemOutTracer implements Tracer 
+class LoggerTracer implements Tracer 
 {
   protected String comment = "-- ";
+  protected Logger logger;
 
-  public SystemOutTracer() {
+  public LoggerTracer(Logger logger) {
+    this.logger = logger;
   }
   
-  public SystemOutTracer(String comment) {
+  public LoggerTracer(Logger logger, String comment) {
+    this.logger = logger;
+    
     if(comment == null) comment = "";
     this.comment = comment;
   }
@@ -20,14 +26,14 @@ class SystemOutTracer implements Tracer
   public void info(String text) {
     if(!TracerFactory.INFO || !TracerFactory.ENABLED) return;
     
-    System.out.println(comment + text);
+    if(logger != null) logger.info(comment + text);
   }
   
   @Override
   public void debug(String text) {
     if(!TracerFactory.DEBUG || !TracerFactory.ENABLED) return;
     
-    System.out.println(text);
+    if(logger != null) logger.fine(text);
   }
   
   @Override
@@ -38,6 +44,6 @@ class SystemOutTracer implements Tracer
     if (throwable != null) {
       message += ": " + throwable.getMessage();
     }
-    System.err.println(message);
+    if(logger != null) logger.severe(message);
   }
 }

@@ -4,6 +4,23 @@ Drivers for debugging jdbc applications.
 
 ## Examples
 
+### Start trace from application
+
+```java
+public static
+Connection getConnection()
+  throws Exception
+{
+  Context ctx = new InitialContext();
+
+  DataSource ds = (DataSource) ctx.lookup("java:/jdbc/db_test");
+
+  Connection conn = ds.getConnection();
+  
+  return TracerFactory.trace(conn);
+}
+```
+
 ### Oracle
 
 ```

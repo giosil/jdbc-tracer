@@ -32,7 +32,7 @@ class SQLServerTracer implements Driver
 
   public Connection connect(String sURL, Properties oInfo) throws java.sql.SQLException {
     Tracer tracer = TracerFactory.getTracer("sqls_trace.sql");
-    tracer.traceRem("[SQLServerTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
+    tracer.info("[SQLServerTracer.connect URL = " + sURL + ", oInfo = " + oInfo + "]");
     Connection conn = null;
     String sTag = null;
     try {
@@ -46,10 +46,10 @@ class SQLServerTracer implements Driver
       sTextRem += ", Info = " + oInfo;
       sTextRem += ", AutoCommit = " + conn.getAutoCommit();
       sTextRem += "]";
-      tracer.traceRem(sTextRem);
+      tracer.info(sTextRem);
     } 
     catch (SQLException ex) {
-      tracer.traceException(ex);
+      tracer.error(ex);
       throw ex;
     }
     return new TConnection(conn, sTag, tracer, "sqlserver");
