@@ -23,8 +23,10 @@ Connection getConnection()
 
 ### Analysis tool
 
+*JDBCLogAnalyzer* shows Connection, PreparedStatement, Statement, ResultSet not closed.
+
 ```
-java org.dew.jdbc.util.JDBCLogAnalyzer mysql_trace.sql
+java -cp ./target/jdbc-tracer-1.0.0.jar org.dew.jdbc.util.JDBCLogAnalyzer hsqldb_trace.sql
 ```
 
 ### Oracle
