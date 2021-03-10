@@ -21,6 +21,12 @@ Connection getConnection()
 }
 ```
 
+### Analysis tool
+
+```
+java org.dew.jdbc.util.JDBCLogAnalyzer mysql_trace.sql
+```
+
 ### Oracle
 
 ```
