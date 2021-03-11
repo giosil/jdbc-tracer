@@ -7,7 +7,7 @@ public
 class JDBCLogAnalyzer
 {
   public static 
-  void main (String[] args)
+  void main(String[] args)
   {
     if(args == null || args.length == 0) {
       System.out.println("Usage: JDBCLogAnalyzer file_trace");
@@ -35,7 +35,7 @@ class JDBCLogAnalyzer
     
     System.out.println ("Read " + file + " ...");
     
-    analyze(file);
+    analyze(file, System.out);
     
     System.out.println ("End.");
   }
@@ -54,11 +54,34 @@ class JDBCLogAnalyzer
       fileName = System.getProperty("user.home") + File.separator + fileName;
     }
     
-    return analyze(new File(fileName));
+    return analyze(new File(fileName), null);
+  }
+  
+  public static 
+  List<Integer> analyze(String fileName, PrintStream ps)
+  {
+    if(fileName == null || fileName.length() == 0) {
+      return new ArrayList<Integer>();
+    }
+    
+    // Check Relative Path
+    int iSep = fileName.indexOf('/');
+    if(iSep < 0) iSep = fileName.indexOf('\\');
+    if(iSep < 0) {
+      fileName = System.getProperty("user.home") + File.separator + fileName;
+    }
+    
+    return analyze(new File(fileName), ps);
   }
   
   public static 
   List<Integer> analyze(File file)
+  {
+    return analyze(file, null);
+  }
+  
+  public static 
+  List<Integer> analyze(File file, PrintStream ps)
   {
     List<Integer> listResult = new ArrayList<Integer>();
     
@@ -115,7 +138,7 @@ class JDBCLogAnalyzer
       String  res = entry.getKey();
       Integer row = entry.getValue();
       listResult.add(row);
-      System.out.println ("Row: " + row + " - " + res);
+      if(ps != null) ps.println ("Row: " + row + " - " + res);
     }
     
     return listResult;
