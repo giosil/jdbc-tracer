@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
+
+import org.dew.jdbc.util.JDBCLogAnalyzer;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -25,6 +28,10 @@ public class TestJDBCTracer extends TestCase {
   public void testApp() throws Exception {
     
     executeQuery();
+    
+    List<Integer> rows = JDBCLogAnalyzer.analyze("hsqldb_trace.sql");
+    
+    System.out.println("analyze -> " + rows);
     
   }
   

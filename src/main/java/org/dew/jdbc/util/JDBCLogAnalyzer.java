@@ -6,32 +6,71 @@ import java.util.*;
 public
 class JDBCLogAnalyzer
 {
-  public
-  static void main (String[] args)
+  public static 
+  void main (String[] args)
   {
     if(args == null || args.length == 0) {
       System.out.println("Usage: JDBCLogAnalyzer file_trace");
       System.exit(1);
     }
     
-    String sFileTrace = args[0];
-    if(sFileTrace == null || sFileTrace.length() == 0) {
+    String fileName = args[0];
+    if(fileName == null || fileName.length() == 0) {
       System.out.println("Invalid file trace");
       System.exit(1);
     }
     
     // Check Relative Path
-    int iSep = sFileTrace.indexOf('/');
-    if(iSep < 0) iSep = sFileTrace.indexOf('\\');
+    int iSep = fileName.indexOf('/');
+    if(iSep < 0) iSep = fileName.indexOf('\\');
     if(iSep < 0) {
-      sFileTrace = System.getProperty("user.home") + File.separator + sFileTrace;
+      fileName = System.getProperty("user.home") + File.separator + fileName;
     }
+    
+    File file = new File(fileName);
+    if(!file.exists()) {
+      System.out.println ("File " + file + " not found.");
+      return;
+    }
+    
+    System.out.println ("Read " + file + " ...");
+    
+    analyze(file);
+    
+    System.out.println ("End.");
+  }
+  
+  public static 
+  List<Integer> analyze(String fileName)
+  {
+    if(fileName == null || fileName.length() == 0) {
+      return new ArrayList<Integer>();
+    }
+    
+    // Check Relative Path
+    int iSep = fileName.indexOf('/');
+    if(iSep < 0) iSep = fileName.indexOf('\\');
+    if(iSep < 0) {
+      fileName = System.getProperty("user.home") + File.separator + fileName;
+    }
+    
+    return analyze(new File(fileName));
+  }
+  
+  public static 
+  List<Integer> analyze(File file)
+  {
+    List<Integer> listResult = new ArrayList<Integer>();
+    
+    if(file == null) return listResult;
+    
+    if(!file.exists()) return listResult;
     
     Map<String,Integer> mapRisorse = new HashMap<String,Integer>();
     
-    System.out.println ("Read " + sFileTrace + " ...");
+    FileReader fr = null;
     try {
-      FileReader fr = new FileReader(sFileTrace);
+      fr = new FileReader(file);
       BufferedReader br = new BufferedReader(fr);
       String sLine = null;
       int iRiga = 0;
@@ -56,11 +95,18 @@ class JDBCLogAnalyzer
             mapRisorse.remove(sResName);
           }
         }
+        else if(sLine.startsWith("-- Exception:")) {
+          String sResName = sLine.substring(13).trim();
+          mapRisorse.put(sResName, new Integer(iRiga));
+        }
       }
       fr.close();
     }
     catch(Exception ex) {
       ex.printStackTrace();
+    }
+    finally {
+      if(fr != null) try { fr.close(); } catch(Exception ex) {}
     }
     
     Iterator<Map.Entry<String, Integer>> iterator = mapRisorse.entrySet().iterator();
@@ -68,9 +114,10 @@ class JDBCLogAnalyzer
       Map.Entry<String, Integer> entry = iterator.next();
       String  res = entry.getKey();
       Integer row = entry.getValue();
-      System.out.println ("Row: " + row + " - Resources: " + res);
+      listResult.add(row);
+      System.out.println ("Row: " + row + " - " + res);
     }
     
-    System.out.println ("End.");
+    return listResult;
   }
 }

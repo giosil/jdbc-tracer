@@ -91,6 +91,10 @@ class TracerFactory
   {
     if(conn == null) return null;
     
+    if(conn instanceof TConnection) {
+      return (TConnection) conn;
+    }
+    
     String     url  = null;
     String     dbms = null;
     Properties info = null;
