@@ -43,7 +43,7 @@ jdbc:oracle:thin:@localhost:1521:orcl
 
         becomes
 
-org.dew.jdbc.drivers OracleDriverTracer
+org.dew.jdbc.drivers.OracleDriverTracer
 jdbc:woracle:thin:@localhost:1521:orcl
 ```
 
@@ -57,7 +57,7 @@ jdbc:mysql://localhost/database
 
         becomes
 
-org.dew.jdbc.drivers MySQLDriverTracer
+org.dew.jdbc.drivers.MySQLDriverTracer
 jdbc:wmysql://localhost/database
 ```
 
@@ -71,7 +71,7 @@ jdbc:mariadb://localhost/database
 
         becomes
 
-org.dew.jdbc.drivers MariaDBTracer
+org.dew.jdbc.drivers.MariaDBTracer
 jdbc:wmariadb://localhost/database
 ```
 
@@ -85,7 +85,7 @@ jdbc:postgresql://host/database
 
         becomes
 
-org.dew.jdbc.drivers PostgreSQLDriverTracer
+org.dew.jdbc.drivers.PostgreSQLDriverTracer
 jdbc:wpostgresql://host/database
 ```
 
