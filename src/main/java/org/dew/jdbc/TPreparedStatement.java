@@ -371,7 +371,7 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setBigDecimal(int iIndex, BigDecimal par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setBigDecimal(iIndex, par);
   }
 
@@ -380,22 +380,22 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setBlob(int iIndex, Blob par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), "<Blob>");
+    mapParameters.put(iIndex, "<Blob>");
     pstm.setBlob(iIndex, par);
   }
 
   public void setBoolean(int iIndex, boolean par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par ? 1 : 0);
+    mapParameters.put(iIndex, par ? 1 : 0);
     pstm.setBoolean(iIndex, par);
   }
 
   public void setByte(int iIndex, byte par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setByte(iIndex, par);
   }
 
   public void setBytes(int iIndex, byte[] par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), "<byte[]>");
+    mapParameters.put(iIndex, "<byte[]>");
     pstm.setBytes(iIndex, par);
   }
 
@@ -404,7 +404,7 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setClob(int iIndex, Clob par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), "<Clob>");
+    mapParameters.put(iIndex, "<Clob>");
     pstm.setClob(iIndex, par);
   }
 
@@ -413,17 +413,17 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setDate(int iIndex, Date par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setDate(iIndex, par);
   }
 
   public void setDate(int iIndex, Date par, Calendar cal) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setDate(iIndex, par, cal);
   }
 
   public void setDouble(int iIndex, double par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), new Double(par));
+    mapParameters.put(iIndex, par);
     pstm.setDouble(iIndex, par);
   }
 
@@ -440,17 +440,17 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setFloat(int iIndex, float par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), new Float(par));
+    mapParameters.put(iIndex, par);
     pstm.setFloat(iIndex, par);
   }
 
   public void setInt(int iIndex, int par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), new Integer(par));
+    mapParameters.put(iIndex, par);
     pstm.setInt(iIndex, par);
   }
 
   public void setLong(int iIndex, long par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), new Long(par));
+    mapParameters.put(iIndex, par);
     pstm.setLong(iIndex, par);
   }
 
@@ -467,22 +467,22 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setNull(int iIndex, int par, String sTypeName) throws SQLException {
-    mapParameters.put(new Integer(iIndex), null);
+    mapParameters.put(iIndex, null);
     pstm.setNull(iIndex, par, sTypeName);
   }
 
   public void setObject(int iIndex, Object par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setObject(iIndex, par);
   }
 
   public void setObject(int iIndex, Object par, int iTargetSQLType) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setObject(iIndex, par, iTargetSQLType);
   }
 
   public void setObject(int iIndex, Object par, int iTargetSQLType, int iScale) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setObject(iIndex, par, iTargetSQLType, iScale);
   }
 
@@ -499,27 +499,27 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setString(int iIndex, String par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setString(iIndex, par);
   }
 
   public void setTime(int iIndex, Time par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setTime(iIndex, par);
   }
 
   public void setTime(int iIndex, Time par, Calendar cal) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setTime(iIndex, par, cal);
   }
 
   public void setTimestamp(int iIndex, Timestamp par) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setTimestamp(iIndex, par);
   }
 
   public void setTimestamp(int iIndex, Timestamp par, Calendar cal) throws SQLException {
-    mapParameters.put(new Integer(iIndex), par);
+    mapParameters.put(iIndex, par);
     pstm.setTimestamp(iIndex, par, cal);
   }
 
@@ -529,7 +529,7 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setURL(int parameterIndex, URL x) throws SQLException {
-    mapParameters.put(new Integer(parameterIndex), x);
+    mapParameters.put(parameterIndex, x);
     pstm.setURL(parameterIndex, x);
   }
 
@@ -575,7 +575,7 @@ public class TPreparedStatement implements PreparedStatement {
   }
 
   public void setNString(int parameterIndex, String value) throws SQLException {
-    mapParameters.put(new Integer(parameterIndex), value);
+    mapParameters.put(parameterIndex, value);
     pstm.setNString(parameterIndex, value);
   }
 

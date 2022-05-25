@@ -96,20 +96,20 @@ class JDBCLogAnalyzer
       fr = new FileReader(file);
       BufferedReader br = new BufferedReader(fr);
       String sLine = null;
-      int iRiga = 0;
+      int iRow = 0;
       while((sLine = br.readLine()) != null) {
-        iRiga++;
+        iRow++;
         if(sLine.startsWith("-- [")) {
           int i = sLine.indexOf("created");
           if(i > 0) {
             String sResName = sLine.substring(4, i - 1);
-            mapRisorse.put(sResName, new Integer(iRiga));
+            mapRisorse.put(sResName, iRow);
           }
           else {
             i = sLine.indexOf("opened");
             if(i > 0) {
               String sResName = sLine.substring(15, i - 1);
-              mapRisorse.put(sResName, new Integer(iRiga));
+              mapRisorse.put(sResName, iRow);
             }
           }
           i = sLine.indexOf(".close");
@@ -120,7 +120,7 @@ class JDBCLogAnalyzer
         }
         else if(sLine.startsWith("-- Exception:")) {
           String sResName = sLine.substring(13).trim();
-          mapRisorse.put(sResName, new Integer(iRiga));
+          mapRisorse.put(sResName, iRow);
         }
       }
       fr.close();

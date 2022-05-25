@@ -3,7 +3,7 @@ package org.dew.jdbc;
 import java.util.*;
 
 public 
-class TMap extends HashMap<Integer,Object> 
+class TMap extends HashMap<Integer, Object> 
 {
   private static final long serialVersionUID = 1L;
   
@@ -23,7 +23,7 @@ class TMap extends HashMap<Integer,Object>
       if (c == '\'') bInAString = !bInAString;
       if (c == '?' && !bInAString) {
         iParam++;
-        String sValue = getString(this.get(new Integer(iParam)));
+        String sValue = getString(this.get(iParam));
         if (sValue != null) {
           result.append(sValue);
         } else {
