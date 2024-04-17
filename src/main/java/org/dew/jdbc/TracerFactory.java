@@ -25,7 +25,7 @@ class TracerFactory
   public final static String TYPE_SYSTEM = "system";
   public final static String TYPE_LOGGER = "logger";
   
-  public static String TYPE = TYPE_FILE;
+  public static String DEFAULT_TYPE = TYPE_FILE;
   
   public static boolean ENABLED = true;
   
@@ -38,13 +38,23 @@ class TracerFactory
   public static 
   Tracer getTracer(String fileName) 
   {
+    return getTracer(fileName, null);
+  }
+  
+  public static 
+  Tracer getTracer(String fileName, String type) 
+  {
     Tracer tracer = instances.get(fileName);
     
     if(tracer != null) return tracer;
     
+    if(type == null || type.length() == 0 || type.equals("default")) {
+      type = DEFAULT_TYPE;
+    }
+    
     char c0 = 'f';
-    if(TYPE != null && TYPE.length() > 0) {
-      c0 = TYPE.charAt(0);
+    if(type != null && type.length() > 0) {
+      c0 = type.charAt(0);
     }
     
     String filePath = fileName;
@@ -83,11 +93,17 @@ class TracerFactory
   public static 
   TConnection trace(Connection conn)
   {
-    return trace(conn, null);
+    return trace(conn, null, null);
+  }
+
+  public static 
+  TConnection trace(Connection conn, String fileName)
+  {
+    return trace(conn, fileName, null);
   }
   
   public static 
-  TConnection trace(Connection conn, String fileName)
+  TConnection trace(Connection conn, String fileName, String type)
   {
     if(conn == null) return null;
     
@@ -135,7 +151,7 @@ class TracerFactory
       fileName = dbms + "_trace.sql";
     }
     
-    Tracer tracer = getTracer(fileName);
+    Tracer tracer = getTracer(fileName, type);
     
     traceCount++;
     String tag = "C" + traceCount;
