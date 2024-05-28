@@ -152,6 +152,10 @@ jdbc:wodbc:test
 - `git clone https://github.com/giosil/jdbc-tracer.git`
 - `mvn clean install`
 
+or 
+
+- `mvn -f .\pom-giosil.xml clean install -DcreateChecksum=true`
+
 ## Contributors
 
 * [Giorgio Silvestris](https://github.com/giosil)
