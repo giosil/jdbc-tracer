@@ -2,6 +2,16 @@
 
 Drivers for debugging jdbc applications.
 
+## Add as dependency
+
+```xml
+<dependency>
+    <groupId>io.github.giosil</groupId>
+    <artifactId>jdbc-tracer</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
 ## Examples
 
 ### Start trace from application
